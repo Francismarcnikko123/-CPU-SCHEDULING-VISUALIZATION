@@ -9,8 +9,8 @@ public class Process {
     public int turnaroundTime;
     public int responseTime;
 
-    public int remainingTime;   // 🆕 for SRTF logic
-    public boolean started;     // 🆕 for response time calculation
+    public int remainingTime;   // for SRTF logic
+    public boolean started;     // for response time calculation
 
     // UI components
     public JProgressBar progressBar;
@@ -21,8 +21,8 @@ public class Process {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
 
-        this.remainingTime = burstTime; // 🔁 Initially full burst time
-        this.started = false;           // 🚦 Will become true when first executed
+        this.remainingTime = burstTime; //Initially full burst time
+        this.started = false;           //Will become true when first executed
     }
 
     public String getName() {

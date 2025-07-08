@@ -48,7 +48,7 @@ public class NewJFrame extends javax.swing.JFrame {
     initComponents();
     setResizable(false);
 
-    // ✅ FIX: Ensure exact string match for combo box entries (removes trailing space issue)
+    //Ensure exact string match for combo box entries (removes trailing space issue)
     jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         "First-In First-Out (FIFO/FCFS)",
         "Shortest Job First (SJF) Non-Preemptive",
@@ -340,7 +340,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
         // TODO add your handling code here:
-  processPanel.removeAll();  // Clear UI
+    processPanel.removeAll();  // Clear UI
     processList = new ArrayList<>(); // Reset data list
 
     int numProcesses;
@@ -493,7 +493,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         Thread.sleep(500); // simulate time unit
                         publish(t * 100 / burst);
                     }
-                    publish(100); // ✅ Ensure 100% is published
+                    publish(100); //Ensure 100% is published
                     return null;
                 }
 
@@ -506,7 +506,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 @Override
                 protected void done() {
                     SwingUtilities.invokeLater(() -> {
-                        p.progressBar.setValue(100); // ✅ Safety: force to full
+                        p.progressBar.setValue(100); //Safety: force to full
 
                         currentTime[0] = startTime + burst;
                         p.responseTime = startTime - p.arrivalTime;
@@ -585,7 +585,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
 
-            // ✅ Update the queue display every tick
+            //Update the queue display every tick
             List<Process> displayQueue = new ArrayList<>(readyQueue);
             SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
 
@@ -691,7 +691,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 current.completionTime = time;
                 current.turnaroundTime = current.completionTime - current.arrivalTime;
 
-                Process finalCurrentDone = current; // ✅ fix for lambda
+                Process finalCurrentDone = current; //fix for lambda
                 int finalStart = start;
                 int finalEnd = time;
                 SwingUtilities.invokeLater(() -> {
@@ -747,7 +747,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 current.remainingTime--;
             }
 
-            // ✅ Update ready queue every tick
+            //Update ready queue every tick
             List<Process> displayQueue = new ArrayList<>();
             for (Process p : readyQueue) {
                 if (p.remainingTime > 0 && p != current) {
@@ -810,19 +810,19 @@ public class NewJFrame extends javax.swing.JFrame {
 }
     
     private void updateGanttChart(int startTime, int endTime, int pid) {
-     JPanel block = new JPanel();
+    JPanel block = new JPanel();
     block.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
     block.setLayout(new BorderLayout());
 
     JLabel pidLabel = new JLabel("P" + pid, JLabel.CENTER);
-    pidLabel.setFont(new Font("Arial", Font.BOLD, 12)); // 🆕 Ensure visibility
+    pidLabel.setFont(new Font("Arial", Font.BOLD, 12)); //Ensure visibility
     JLabel timeLabel = new JLabel("Running...", JLabel.CENTER);
 
     block.add(pidLabel, BorderLayout.CENTER);
     block.add(timeLabel, BorderLayout.SOUTH);
-    block.setBackground(java.awt.Color.YELLOW); // 🟨 Initially yellow when process starts
+    block.setBackground(java.awt.Color.YELLOW); //Initially yellow when process starts
 
-    int width = Math.max((endTime - startTime) * 30, 50); // 🆕 Minimum width for visibility
+    int width = Math.max((endTime - startTime) * 30, 50); //Minimum width for visibility
     block.setPreferredSize(new Dimension(width, 40));
 
     SwingUtilities.invokeLater(() -> {
@@ -838,7 +838,7 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (InterruptedException ignored) {}
 
         SwingUtilities.invokeLater(() -> {
-            block.setBackground(java.awt.Color.CYAN); // 🕦 When done
+            block.setBackground(java.awt.Color.CYAN); //When done
             timeLabel.setText(startTime + " - " + endTime);
             ganttPanel.revalidate();
             ganttPanel.repaint();
@@ -846,8 +846,11 @@ public class NewJFrame extends javax.swing.JFrame {
     }).start();
 
     // Update panel scrollable width with a larger base to ensure scroll area fits all blocks
-    int totalWidth = Math.max(ganttPanel.getPreferredSize().width, endTime * 40 + 100);
-    ganttPanel.setPreferredSize(new Dimension(totalWidth, 100));
+   int unitWidth = 30; // adjust this if you're using a different scale
+    int totalRequiredWidth = endTime * unitWidth;
+
+ganttPanel.setPreferredSize(new Dimension(totalRequiredWidth, 100));
+ganttPanel.revalidate();
 }
 
 

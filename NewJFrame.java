@@ -19,6 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -27,6 +29,10 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JScrollBar;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 public class NewJFrame extends javax.swing.JFrame {
@@ -39,16 +45,26 @@ public class NewJFrame extends javax.swing.JFrame {
     private JTextField numProcField;
     private List<Process> processList = new ArrayList<>();
     private String selectedAlgorithm = "FIFO"; // Default
-    
+    private volatile int simulationDelay = 500;  // default value
 
-
-
-    
     public NewJFrame() {
     initComponents();
     setResizable(false);
 
-    //Ensure exact string match for combo box entries (removes trailing space issue)
+    // 🆕 Simulation speed slider setup
+    simulationSpeed.setMinimum(10);
+    simulationSpeed.setMaximum(1000);
+    simulationSpeed.setValue(500); // default speed: 500 ms
+    simulationSpeed.setMajorTickSpacing(250);
+    simulationSpeed.setMinorTickSpacing(50);
+    simulationSpeed.setPaintTicks(true);
+    simulationSpeed.setPaintLabels(true);
+
+    simulationSpeed.addChangeListener(e -> {
+        simulationDelay = simulationSpeed.getValue();
+    });
+
+    // Existing setup
     jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         "First-In First-Out (FIFO/FCFS)",
         "Shortest Job First (SJF) Non-Preemptive",
@@ -57,15 +73,11 @@ public class NewJFrame extends javax.swing.JFrame {
         "Multilevel Feedback Queue (MLFQ)"
     }));
 
-    processPanel.setLayout(new GridLayout(0, 1, 5, 5));
-    queuePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+     processPanel.setLayout(new GridLayout(0, 1, 5, 5));
+     queuePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    // Gantt chart layout
-    ganttPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-    ganttPanel.setPreferredSize(new Dimension(2000, 100));
-    jScrollPane5.setViewportView(ganttPanel);
-    
-     
+     ganttPanel.setLayout(new BoxLayout(ganttPanel, BoxLayout.X_AXIS));
+     jScrollPane5.setViewportView(ganttPanel);
     }
     
     
@@ -98,6 +110,9 @@ public class NewJFrame extends javax.swing.JFrame {
         queuePanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         ganttPanel = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        simulationSpeed = new javax.swing.JSlider();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,7 +198,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel7.setText("Queue:");
 
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         queuePanel.setBackground(new java.awt.Color(255, 255, 255));
+        queuePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout queuePanelLayout = new javax.swing.GroupLayout(queuePanel);
         queuePanel.setLayout(queuePanelLayout);
@@ -210,6 +228,12 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         jScrollPane5.setViewportView(ganttPanel);
+
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 10)); // NOI18N
+        jLabel8.setText("GNATT CHART");
+
+        jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel9.setText("Simulation Speed");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,17 +269,27 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel9)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel8)))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,18 +302,23 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(jLabel7))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -289,9 +328,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(RunButton))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -444,14 +485,14 @@ public class NewJFrame extends javax.swing.JFrame {
             Enter.setEnabled(true);
             UserInput.setEnabled(true);
             RunButton.setEnabled(true);
-    } 
+         } 
     }//GEN-LAST:event_RunButtonActionPerformed
 
     private void runFIFO() {
     // Sort by arrival time
  processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
 
-    // Clear queue and Gantt chart UI at start
+    // Clear Gantt chart and update queue before simulation
     SwingUtilities.invokeLater(() -> {
         updateQueueDisplay(processList);
         ganttPanel.removeAll();
@@ -460,40 +501,41 @@ public class NewJFrame extends javax.swing.JFrame {
     });
 
     new Thread(() -> {
-        int[] currentTime = {0};  // use array for mutability inside lambda
+        int[] currentTime = {0};  // mutable for lambda use
         int[] totalTAT = {0};
         int[] totalRT = {0};
 
         for (int i = 0; i < processList.size(); i++) {
             Process p = processList.get(i);
 
-            // Simulate idle time
+            // Simulate idle time (if CPU is waiting for process to arrive)
             if (currentTime[0] < p.arrivalTime) {
                 try {
-                    Thread.sleep((p.arrivalTime - currentTime[0]) * 500);
+                    Thread.sleep((p.arrivalTime - currentTime[0]) * simulationDelay);
                 } catch (InterruptedException e) {}
                 currentTime[0] = p.arrivalTime;
             }
 
+            // Update the remaining queue display
             int finalI = i;
             SwingUtilities.invokeLater(() -> {
                 List<Process> remainingQueue = processList.subList(finalI, processList.size());
                 updateQueueDisplay(remainingQueue);
             });
 
-            final int index = i;
-            final int startTime = currentTime[0];
-            final int burst = p.burstTime;
+            int finalIndex = i;
+            int startTime = currentTime[0];
+            int burst = p.burstTime;
 
             SwingWorker<Void, Integer> worker = new SwingWorker<>() {
                 @Override
                 protected Void doInBackground() throws Exception {
                     p.stateLabel.setText("Running");
                     for (int t = 1; t <= burst; t++) {
-                        Thread.sleep(500); // simulate time unit
-                        publish(t * 100 / burst);
+                        Thread.sleep(simulationDelay); // ⏳ dynamic delay
+                        publish(t * 100 / burst); // update progress
                     }
-                    publish(100); //Ensure 100% is published
+                    publish(100);
                     return null;
                 }
 
@@ -505,8 +547,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
                 @Override
                 protected void done() {
-                    SwingUtilities.invokeLater(() -> {
-                        p.progressBar.setValue(100); //Safety: force to full
+                     SwingUtilities.invokeLater(() -> {
+                        p.progressBar.setValue(100);
+                        p.stateLabel.setText("Done");
 
                         currentTime[0] = startTime + burst;
                         p.responseTime = startTime - p.arrivalTime;
@@ -516,18 +559,18 @@ public class NewJFrame extends javax.swing.JFrame {
                         totalRT[0] += p.responseTime;
                         totalTAT[0] += p.turnaroundTime;
 
-                        p.stateLabel.setText("Done");
-
-                        // Add this process block to Gantt Chart
+                        // ✅ Gantt update immediately
                         updateGanttChart(startTime, currentTime[0], p.pid);
 
-                        if (index + 1 < processList.size()) {
-                            updateQueueDisplay(processList.subList(index + 1, processList.size()));
+                        // Update remaining queue
+                        if (finalIndex + 1 < processList.size()) {
+                            updateQueueDisplay(processList.subList(finalIndex + 1, processList.size()));
                         } else {
-                            updateQueueDisplay(new ArrayList<>()); // Empty queue
+                            updateQueueDisplay(new ArrayList<>());
                         }
 
-                        if (index == processList.size() - 1) {
+                        // Enable UI after final process
+                        if (finalIndex == processList.size() - 1) {
                             updateTable(totalTAT[0], totalRT[0]);
                             Enter.setEnabled(true);
                             UserInput.setEnabled(true);
@@ -541,16 +584,17 @@ public class NewJFrame extends javax.swing.JFrame {
             worker.execute();
 
             try {
+                // Wait for process to complete before next
                 while (!worker.isDone()) {
-                    Thread.sleep(100);
+                    Thread.sleep(simulationDelay); // ⏳ dynamic check delay
                 }
-            } catch (Exception e) {}
+            } catch (InterruptedException e) {}
         }
     }).start();
 }
     
     private void runSJF() {
-     new Thread(() -> {
+      new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0;
         int completed = 0;
@@ -558,11 +602,13 @@ public class NewJFrame extends javax.swing.JFrame {
         int[] totalRT = {0};
         int[] totalTAT = {0};
 
+        // Initialize all processes
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
         }
 
+        // Sort by arrival time then burst time
         processList.sort((p1, p2) -> {
             if (p1.arrivalTime != p2.arrivalTime) {
                 return Integer.compare(p1.arrivalTime, p2.arrivalTime);
@@ -570,6 +616,7 @@ public class NewJFrame extends javax.swing.JFrame {
             return Integer.compare(p1.burstTime, p2.burstTime);
         });
 
+        // Clear Gantt chart before start
         SwingUtilities.invokeLater(() -> {
             ganttPanel.removeAll();
             ganttPanel.revalidate();
@@ -585,19 +632,20 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
 
-            //Update the queue display every tick
+            // Update queue display
             List<Process> displayQueue = new ArrayList<>(readyQueue);
             SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
 
+            // No ready processes, idle
             if (readyQueue.isEmpty()) {
                 time++;
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(simulationDelay); // ⏳ idle wait
                 } catch (InterruptedException ignored) {}
                 continue;
             }
 
-            // Choose the shortest job
+            // Select shortest job
             readyQueue.sort((p1, p2) -> Integer.compare(p1.burstTime, p2.burstTime));
             Process current = readyQueue.get(0);
             current.started = true;
@@ -605,6 +653,7 @@ public class NewJFrame extends javax.swing.JFrame {
             int start = time;
             int end = time + current.burstTime;
 
+            // Record response & turnaround
             current.responseTime = start - current.arrivalTime;
             current.completionTime = end;
             current.turnaroundTime = end - current.arrivalTime;
@@ -614,16 +663,18 @@ public class NewJFrame extends javax.swing.JFrame {
             Process finalCurrent = current;
             SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
 
+            // Simulate execution
             for (int t = 0; t < current.burstTime; t++) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(simulationDelay); // ⏳ dynamic speed
                 } catch (InterruptedException ignored) {}
 
                 int progress = (int) (((t + 1) / (float) current.burstTime) * 100);
                 SwingUtilities.invokeLater(() -> finalCurrent.progressBar.setValue(progress));
 
                 int finalTime = time + t + 1;
-                // 🆕 Also update queue display on every tick
+
+                // Refresh queue at each tick
                 List<Process> tickQueue = new ArrayList<>();
                 for (Process p : processList) {
                     if (!p.started && p.arrivalTime <= finalTime) {
@@ -633,6 +684,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 SwingUtilities.invokeLater(() -> updateQueueDisplay(tickQueue));
             }
 
+            // Final UI update after process finishes
             SwingUtilities.invokeLater(() -> {
                 finalCurrent.stateLabel.setText("Done");
                 finalCurrent.progressBar.setValue(100);
@@ -643,6 +695,7 @@ public class NewJFrame extends javax.swing.JFrame {
             completed++;
         }
 
+        // All done — update table
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
             Enter.setEnabled(true);
@@ -663,7 +716,6 @@ public class NewJFrame extends javax.swing.JFrame {
         int[] totalRT = {0};
         int[] totalTAT = {0};
 
-        // Initialize remaining time
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
@@ -679,34 +731,12 @@ public class NewJFrame extends javax.swing.JFrame {
         int start = -1;
 
         while (completed < n) {
-            // Add newly arrived processes to the ready queue
             for (Process p : processList) {
                 if (p.arrivalTime == time) {
                     readyQueue.add(p);
                 }
             }
 
-            // Check if current process finished
-            if (current != null && current.remainingTime == 0) {
-                current.completionTime = time;
-                current.turnaroundTime = current.completionTime - current.arrivalTime;
-
-                Process finalCurrentDone = current; //fix for lambda
-                int finalStart = start;
-                int finalEnd = time;
-                SwingUtilities.invokeLater(() -> {
-                    finalCurrentDone.stateLabel.setText("Done");
-                    finalCurrentDone.progressBar.setValue(100);
-                    updateGanttChart(finalStart, finalEnd, finalCurrentDone.pid);
-                });
-
-                totalRT[0] += current.responseTime;
-                totalTAT[0] += current.turnaroundTime;
-                current = null;
-                completed++;
-            }
-
-            // Find process with shortest remaining time
             Process shortest = null;
             for (Process p : readyQueue) {
                 if (p.remainingTime > 0) {
@@ -716,7 +746,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
 
-            // If a new process is selected, update state and start time
             if (shortest != null) {
                 if (current != shortest) {
                     if (current != null && current.remainingTime > 0) {
@@ -736,7 +765,6 @@ public class NewJFrame extends javax.swing.JFrame {
                     SwingUtilities.invokeLater(() -> finalCurrentStart.stateLabel.setText("Running"));
                 }
 
-                // Update progress
                 Process finalCurrentTick = current;
                 SwingUtilities.invokeLater(() -> {
                     finalCurrentTick.progressBar.setValue(
@@ -745,9 +773,29 @@ public class NewJFrame extends javax.swing.JFrame {
                 });
 
                 current.remainingTime--;
+
+                if (current.remainingTime == 0) {
+                    // Final update occurs after current tick
+                    Process finalCurrentDone = current;
+                    int finalStart = start;
+                    int finalEnd = time + 1;
+
+                    current.completionTime = finalEnd;
+                    current.turnaroundTime = finalCurrentDone.completionTime - finalCurrentDone.arrivalTime;
+                    totalRT[0] += finalCurrentDone.responseTime;
+                    totalTAT[0] += finalCurrentDone.turnaroundTime;
+
+                    SwingUtilities.invokeLater(() -> {
+                        finalCurrentDone.stateLabel.setText("Done");
+                        finalCurrentDone.progressBar.setValue(100);
+                        updateGanttChart(finalStart, finalEnd, finalCurrentDone.pid);
+                    });
+
+                    current = null;
+                    completed++;
+                }
             }
 
-            //Update ready queue every tick
             List<Process> displayQueue = new ArrayList<>();
             for (Process p : readyQueue) {
                 if (p.remainingTime > 0 && p != current) {
@@ -759,7 +807,7 @@ public class NewJFrame extends javax.swing.JFrame {
             SwingUtilities.invokeLater(() -> updateQueueDisplay(finalQueue));
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(simulationDelay); // ✅ delay tied to slider
             } catch (InterruptedException ignored) {}
 
             time++;
@@ -811,19 +859,29 @@ public class NewJFrame extends javax.swing.JFrame {
     
     private void updateGanttChart(int startTime, int endTime, int pid) {
     JPanel block = new JPanel();
-    block.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
-    block.setLayout(new BorderLayout());
+    block.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    block.setBackground(Color.YELLOW);
+    block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS)); // vertical layout
 
-    JLabel pidLabel = new JLabel("P" + pid, JLabel.CENTER);
-    pidLabel.setFont(new Font("Arial", Font.BOLD, 12)); //Ensure visibility
-    JLabel timeLabel = new JLabel("Running...", JLabel.CENTER);
+    // PID Label
+    JLabel pidLabel = new JLabel("P" + pid);
+    pidLabel.setFont(new Font("Arial", Font.BOLD, 14));
+    pidLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    pidLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    block.add(pidLabel, BorderLayout.CENTER);
-    block.add(timeLabel, BorderLayout.SOUTH);
-    block.setBackground(java.awt.Color.YELLOW); //Initially yellow when process starts
+    // Time Label
+    JLabel timeLabel = new JLabel("Running...");
+    timeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    int width = Math.max((endTime - startTime) * 30, 50); //Minimum width for visibility
-    block.setPreferredSize(new Dimension(width, 40));
+    block.add(Box.createVerticalGlue()); // spacing above
+    block.add(pidLabel);
+    block.add(timeLabel);
+    block.add(Box.createVerticalGlue()); // spacing below
+
+    int blockWidth = Math.max((endTime - startTime) * 30, 50);
+    block.setPreferredSize(new Dimension(blockWidth, ganttPanel.getHeight())); // 👈 full height of panel
 
     SwingUtilities.invokeLater(() -> {
         ganttPanel.add(block);
@@ -831,26 +889,26 @@ public class NewJFrame extends javax.swing.JFrame {
         ganttPanel.repaint();
     });
 
-    // Store a reference to the block and label so we can update them when done
+    // After execution, change color + show time range
     new Thread(() -> {
         try {
-            Thread.sleep((endTime - startTime) * 500); // Simulate burst duration
+            Thread.sleep((endTime - startTime) * 500);
         } catch (InterruptedException ignored) {}
 
         SwingUtilities.invokeLater(() -> {
-            block.setBackground(java.awt.Color.CYAN); //When done
+            block.setBackground(Color.CYAN);
             timeLabel.setText(startTime + " - " + endTime);
-            ganttPanel.revalidate();
-            ganttPanel.repaint();
         });
     }).start();
 
-    // Update panel scrollable width with a larger base to ensure scroll area fits all blocks
-   int unitWidth = 30; // adjust this if you're using a different scale
-    int totalRequiredWidth = endTime * unitWidth;
-
-ganttPanel.setPreferredSize(new Dimension(totalRequiredWidth, 100));
-ganttPanel.revalidate();
+    // Resize Gantt Panel width if needed
+    SwingUtilities.invokeLater(() -> {
+        int totalBlocks = ganttPanel.getComponentCount();
+        int totalWidth = totalBlocks * (blockWidth + 5); // 5 = spacing
+        ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
+        ganttPanel.revalidate();
+        ganttPanel.repaint();
+    });
 }
 
 
@@ -903,6 +961,8 @@ ganttPanel.revalidate();
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -910,5 +970,6 @@ ganttPanel.revalidate();
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel processPanel;
     private javax.swing.JPanel queuePanel;
+    private javax.swing.JSlider simulationSpeed;
     // End of variables declaration//GEN-END:variables
 }

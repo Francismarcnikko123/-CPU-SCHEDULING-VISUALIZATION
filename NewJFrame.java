@@ -251,11 +251,8 @@ public class NewJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(183, 183, 183))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -269,13 +266,18 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel5)
                                 .addGap(12, 12, 12))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Enter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Enter)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(140, 140, 140)))
                         .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,8 +291,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(jLabel9)))
-                        .addGap(0, 0, 0)))
+                                .addComponent(jLabel9)))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
@@ -323,7 +324,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 11, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,7 +332,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter)
                     .addComponent(RunButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel6)
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -477,6 +478,8 @@ public class NewJFrame extends javax.swing.JFrame {
             runSRTF();
             break;
         case "RR":
+            runRR();
+            break;
         case "MLFQ":
             JOptionPane.showMessageDialog(this, selectedAlgorithm + " not implemented yet.");
             Enter.setEnabled(true);
@@ -825,6 +828,133 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }).start();
 }
+    
+    private void runRR() {
+    String input = JOptionPane.showInputDialog(this, "Enter Time Quantum:", "Round Robin Settings", JOptionPane.QUESTION_MESSAGE);
+    if (input == null) {
+        reenableControls();
+        return;
+    }
+
+    int timeQuantum;
+    try {
+        timeQuantum = Integer.parseInt(input);
+        if (timeQuantum <= 0) throw new NumberFormatException();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid input. Please enter a positive integer.", "Error", JOptionPane.ERROR_MESSAGE);
+        reenableControls();
+        return;
+    }
+
+    new Thread(() -> {
+        List<Process> readyQueue = new ArrayList<>();
+        int time = 0, completed = 0, n = processList.size();
+        int[] totalRT = {0}, totalTAT = {0};
+
+        for (Process p : processList) {
+            p.remainingTime = p.burstTime;
+            p.started = false;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            ganttPanel.removeAll();
+            ganttPanel.revalidate();
+            ganttPanel.repaint();
+        });
+
+        while (completed < n) {
+            // 🆕 Clean up: avoid re-adding already completed processes
+            for (Process p : processList) {
+                if (p.arrivalTime <= time && p.remainingTime > 0 && !queueContains(readyQueue, p)) {
+                    readyQueue.add(p);
+                }
+            }
+
+            if (readyQueue.isEmpty()) {
+                time++;
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                continue;
+            }
+
+            Process current = readyQueue.remove(0);
+            if (current.remainingTime <= 0) continue; // Skip finished
+
+            int execTime = Math.min(timeQuantum, current.remainingTime);
+            int startTime = time;
+
+            if (!current.started) {
+                current.started = true;
+                current.responseTime = time - current.arrivalTime;
+                totalRT[0] += current.responseTime;
+            }
+
+            Process finalCurrent = current;
+            SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
+
+            for (int i = 0; i < execTime; i++) {
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                time++;
+                current.remainingTime--;
+
+                int progress = (int)(((float)(current.burstTime - current.remainingTime) / current.burstTime) * 100);
+                SwingUtilities.invokeLater(() -> current.progressBar.setValue(progress));
+
+                // Dynamically check for new arrivals
+                for (Process p : processList) {
+                    if (p.arrivalTime == time && p.remainingTime > 0 && !queueContains(readyQueue, p)) {
+                        readyQueue.add(p);
+                    }
+                }
+            }
+
+            int endTime = time;
+
+            // 🎯 Sync Gantt with actual execution
+            if (startTime != endTime) {
+                SwingUtilities.invokeLater(() -> {
+                    finalCurrent.stateLabel.setText(finalCurrent.remainingTime == 0 ? "Done" : "Ready");
+                    if (finalCurrent.remainingTime == 0) finalCurrent.progressBar.setValue(100);
+                    updateGanttChart(startTime, endTime, finalCurrent.pid);
+                });
+            }
+
+            if (current.remainingTime > 0) {
+                // ✔️ Avoid requeueing duplicates
+                if (!queueContains(readyQueue, current)) {
+                    readyQueue.add(current);
+                }
+            } else {
+                current.completionTime = time;
+                current.turnaroundTime = current.completionTime - current.arrivalTime;
+                totalTAT[0] += current.turnaroundTime;
+                completed++;
+            }
+
+            // ✅ Filter queue for active processes only (no repeats)
+            List<Process> queueDisplay = new ArrayList<>();
+            for (Process p : readyQueue) {
+                if (p.remainingTime > 0 && !queueDisplay.contains(p)) {
+                    queueDisplay.add(p);
+                }
+            }
+
+            SwingUtilities.invokeLater(() -> updateQueueDisplay(queueDisplay));
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            updateTable(totalTAT[0], totalRT[0]);
+            reenableControls();
+        });
+    }).start();
+    }
+
+// Utility method to re-enable UI buttons
+private void reenableControls() {
+    Enter.setEnabled(true);
+    UserInput.setEnabled(true);
+    RunButton.setEnabled(true);
+    RunButton.setSelected(false);
+}
 
     
     private void updateTable(int totalTAT, int totalRT) {
@@ -915,7 +1045,12 @@ public class NewJFrame extends javax.swing.JFrame {
 }
 
 
-
+private boolean queueContains(List<Process> queue, Process target) {
+    for (Process p : queue) {
+        if (p.pid == target.pid) return true;
+    }
+    return false;
+}
     /**
      * @param args the command line arguments
      */

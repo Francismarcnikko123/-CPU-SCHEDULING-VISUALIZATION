@@ -29,6 +29,12 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JScrollBar;
@@ -50,7 +56,31 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
     initComponents();
     setResizable(false);
+    
+    jPanel1.setVisible(false);
+    
+    jComboBox1.addActionListener(e -> {
+    boolean isMLFQ = jComboBox1.getSelectedItem().toString().equals("MLFQ");
 
+    tqQ0Field.setVisible(isMLFQ);
+    allQ0Field.setVisible(isMLFQ);
+    tqQ1Field.setVisible(isMLFQ);
+    allQ1Field.setVisible(isMLFQ);
+    tqQ2Field.setVisible(isMLFQ);
+    allQ2Field.setVisible(isMLFQ);
+
+    // Updated label variables based on your naming
+    Q1Q.setVisible(isMLFQ); // Q0 Quantum Label
+    Q1A.setVisible(isMLFQ); // Q0 Allotment Label
+    Q2Q.setVisible(isMLFQ); // Q1 Quantum Label
+    Q2A.setVisible(isMLFQ); // Q1 Allotment Label
+    Q3Q.setVisible(isMLFQ); // Q2 Quantum Label
+    Q3A.setVisible(isMLFQ); // Q2 Allotment Label
+
+    jPanel1.revalidate();
+    jPanel1.repaint();
+});
+    
     // 🆕 Simulation speed slider setup
     simulationSpeed.setMinimum(10);
     simulationSpeed.setMaximum(1000);
@@ -90,6 +120,7 @@ public class NewJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
@@ -112,7 +143,21 @@ public class NewJFrame extends javax.swing.JFrame {
         ganttPanel = new javax.swing.JPanel();
         simulationSpeed = new javax.swing.JSlider();
         jLabel9 = new javax.swing.JLabel();
-        resetButton = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        Q1Q = new javax.swing.JLabel();
+        Q1A = new javax.swing.JLabel();
+        Q2Q = new javax.swing.JLabel();
+        Q2A = new javax.swing.JLabel();
+        Q3Q = new javax.swing.JLabel();
+        Q3A = new javax.swing.JLabel();
+        tqQ0Field = new javax.swing.JTextField();
+        allQ0Field = new javax.swing.JTextField();
+        tqQ1Field = new javax.swing.JTextField();
+        allQ1Field = new javax.swing.JTextField();
+        tqQ2Field = new javax.swing.JTextField();
+        allQ2Field = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -246,65 +291,180 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel9.setText("Simulation Speed");
 
-        resetButton.setText("Reset All");
-        resetButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setText("Gantt Chart ");
+        jLabel8.setToolTipText("");
+        jLabel8.setRequestFocusEnabled(false);
+
+        jLabel10.setText("(Each box represents completionTime)");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        Q1Q.setText("Q0 Quantum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q1Q, gridBagConstraints);
+
+        Q1A.setText("Q0 Allotment:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q1A, gridBagConstraints);
+
+        Q2Q.setText("Q1 Quantum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q2Q, gridBagConstraints);
+
+        Q2A.setText("Q1 Allotment:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q2A, gridBagConstraints);
+
+        Q3Q.setText("Q2 Quantum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q3Q, gridBagConstraints);
+
+        Q3A.setText("Q2 Allotment:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
+        jPanel1.add(Q3A, gridBagConstraints);
+
+        tqQ0Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetButtonActionPerformed(evt);
+                tqQ0FieldActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
+        jPanel1.add(tqQ0Field, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
+        jPanel1.add(allQ0Field, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
+        jPanel1.add(tqQ1Field, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
+        jPanel1.add(allQ1Field, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
+        jPanel1.add(tqQ2Field, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = -18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 6);
+        jPanel1.add(allQ2Field, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(78, 78, 78)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5)
-                                .addGap(12, 12, 12))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(140, 140, 140))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(Enter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Enter)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(140, 140, 140)))
+                                .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4))
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(78, 78, 78)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel5)
+                                        .addGap(12, 12, 12)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel9)))))
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
+                                        .addComponent(jLabel9)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)))
+                        .addGap(0, 44, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -318,8 +478,6 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(13, 13, 13)
@@ -334,18 +492,28 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 15, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter)
                     .addComponent(RunButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(59, 59, 59)
                 .addComponent(jLabel6)
-                .addGap(48, 48, 48)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -391,7 +559,28 @@ public class NewJFrame extends javax.swing.JFrame {
         RunButton.setSelected(false);
         JOptionPane.showMessageDialog(this, "Switched to: " + selected + ". Enter new process info.");
     }
-        
+       boolean isMLFQ = selectedAlgorithm.equals("MLFQ");
+
+        jPanel1.setVisible(isMLFQ); // Show if MLFQ is selected, otherwise hide
+        jPanel1.revalidate();
+        jPanel1.repaint();
+
+// Optional: Pre-fill or clear values
+        if (isMLFQ) {
+        tqQ0Field.setText("4");
+        allQ0Field.setText("6");
+        tqQ1Field.setText("6");
+        allQ1Field.setText("10");
+        tqQ2Field.setText("8");
+        allQ2Field.setText("14");
+        } else {
+        tqQ0Field.setText("");
+        allQ0Field.setText("");
+        tqQ1Field.setText("");
+        allQ1Field.setText("");
+        tqQ2Field.setText("");
+        allQ2Field.setText("");
+        } 
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
@@ -492,10 +681,7 @@ public class NewJFrame extends javax.swing.JFrame {
             runRR();
             break;
         case "MLFQ":
-            JOptionPane.showMessageDialog(this, selectedAlgorithm + " not implemented yet.");
-            Enter.setEnabled(true);
-            UserInput.setEnabled(true);
-            RunButton.setEnabled(true);
+            runMLFQ();
             break;
         default:
             JOptionPane.showMessageDialog(this, "Unknown algorithm selected.");
@@ -505,37 +691,13 @@ public class NewJFrame extends javax.swing.JFrame {
          } 
     }//GEN-LAST:event_RunButtonActionPerformed
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void tqQ0FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tqQ0FieldActionPerformed
         // TODO add your handling code here:
-    processList.clear();
-
-    processPanel.removeAll();
-    processPanel.revalidate();
-    processPanel.repaint();
-
-    queuePanel.removeAll();
-    queuePanel.revalidate();
-    queuePanel.repaint();
-
-    ganttPanel.removeAll();
-    ganttPanel.revalidate();
-    ganttPanel.repaint();
-
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
-
-    // Reset input controls
-    UserInput.setEnabled(true);
-    UserInput.setText("");
-    Enter.setEnabled(true);
-    RunButton.setEnabled(true);
-    RunButton.setSelected(false);
-        
-    }//GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_tqQ0FieldActionPerformed
 
     private void runFIFO() {
     // Sort by arrival time
-    processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
+ processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
 
     // Clear Gantt chart and update queue before simulation
     SwingUtilities.invokeLater(() -> {
@@ -852,7 +1014,7 @@ public class NewJFrame extends javax.swing.JFrame {
             SwingUtilities.invokeLater(() -> updateQueueDisplay(finalQueue));
 
             try {
-                Thread.sleep(simulationDelay); //delay tied to slider
+                Thread.sleep(simulationDelay); // ✅ delay tied to slider
             } catch (InterruptedException ignored) {}
 
             time++;
@@ -948,7 +1110,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
             int endTime = time;
 
-            // Sync Gantt with actual execution
+            // 🎯 Sync Gantt with actual execution
             if (startTime != endTime) {
                 SwingUtilities.invokeLater(() -> {
                     finalCurrent.stateLabel.setText(finalCurrent.remainingTime == 0 ? "Done" : "Ready");
@@ -986,6 +1148,138 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }).start();
     }
+    
+ 
+    private void runMLFQ() {
+    if (processList == null || processList.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No processes found. Please enter processes first.");
+        return;
+    }
+
+    // Retrieve quantum and allotment values from input fields
+    int tqQ0 = Integer.parseInt(tqQ0Field.getText());
+    int allQ0 = Integer.parseInt(allQ0Field.getText());
+    int tqQ1 = Integer.parseInt(tqQ1Field.getText());
+    int allQ1 = Integer.parseInt(allQ1Field.getText());
+    int tqQ2 = Integer.parseInt(tqQ2Field.getText());
+    int allQ2 = Integer.parseInt(allQ2Field.getText());
+
+    List<Queue<Process>> queues = new ArrayList<>();
+    for (int i = 0; i < 4; i++) queues.add(new LinkedList<>());
+
+    // Reset process fields
+    for (Process p : processList) {
+        p.remainingTime = p.burstTime;
+        p.queueLevel = 0;
+        p.usedTime = 0;
+        p.started = false;
+    }
+
+    ganttPanel.removeAll();
+    ganttPanel.revalidate();
+    ganttPanel.repaint();
+
+    int time = 0;
+    List<Process> ready = new ArrayList<>(processList);
+    ready.sort(Comparator.comparingInt(p -> p.arrivalTime));
+
+    while (!ready.isEmpty() || queues.stream().anyMatch(q -> !q.isEmpty())) {
+        // Enqueue newly arrived processes to Q0
+        Iterator<Process> it = ready.iterator();
+        while (it.hasNext()) {
+            Process p = it.next();
+            if (p.arrivalTime <= time) {
+                p.queueLevel = 0;
+                p.usedTime = 0;
+                queues.get(0).offer(p);
+                it.remove();
+            }
+        }
+
+        // Pick the highest priority non-empty queue
+        Process running = null;
+        int qIndex = -1;
+        for (int i = 0; i < 4; i++) {
+            if (!queues.get(i).isEmpty()) {
+                running = queues.get(i).poll();
+                qIndex = i;
+                break;
+            }
+        }
+
+        if (running == null) {
+            time++;
+            continue;
+        }
+
+        int qt = (qIndex == 0) ? tqQ0 : (qIndex == 1) ? tqQ1 : (qIndex == 2) ? tqQ2 : Integer.MAX_VALUE;
+        int allot = (qIndex == 0) ? allQ0 : (qIndex == 1) ? allQ1 : (qIndex == 2) ? allQ2 : Integer.MAX_VALUE;
+
+        int runTime = Math.min(qt, running.remainingTime);
+        int endTime = time + runTime;
+
+        // Record response time
+        if (!running.started) {
+            running.started = true;
+            running.responseTime = time - running.arrivalTime;
+        }
+
+        // Visualize on Gantt chart
+        addToGanttChart(running, time, endTime, qIndex);
+
+        // Optional: simulate passage of time with delay
+        for (int t = time; t < endTime; t++) {
+            try {
+                Thread.sleep(simulationDelay);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        running.remainingTime -= runTime;
+        running.usedTime += runTime;
+        time += runTime;
+
+        if (running.remainingTime > 0) {
+            // Check for demotion
+            if (running.usedTime >= allot && qIndex < 3) {
+                running.queueLevel = qIndex + 1;
+                running.usedTime = 0;
+                queues.get(running.queueLevel).offer(running);
+            } else {
+                queues.get(qIndex).offer(running);
+            }
+        } else {
+            running.completionTime = time;
+            running.turnaroundTime = time - running.arrivalTime;
+        }
+    }
+
+    repaint(); // refresh UI
+}
+
+    
+
+private void addToGanttChart(Process p, int start, int end, int queueLevel) {
+    JLabel block = new JLabel(p.name + "[Q" + queueLevel + "]", SwingConstants.CENTER);
+    block.setOpaque(true);
+    block.setPreferredSize(new Dimension((end - start) * 30, 40)); // adjust scale as needed
+    block.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    block.setBackground(getColor(queueLevel));
+    ganttPanel.add(block);
+    ganttPanel.revalidate();
+    ganttPanel.repaint();
+}    
+
+private Color getColor(int queueLevel) {
+    switch (queueLevel) {
+        case 0: return new Color(102, 204, 255); // Light Blue
+        case 1: return new Color(153, 255, 153); // Light Green
+        case 2: return new Color(255, 255, 153); // Light Yellow
+        case 3: return new Color(255, 204, 204); // Light Red
+        default: return Color.LIGHT_GRAY;
+    }
+}
 
 // Utility method to re-enable UI buttons
 private void reenableControls() {
@@ -1127,18 +1421,30 @@ private boolean queueContains(List<Process> queue, Process target) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enter;
+    private javax.swing.JLabel Q1A;
+    private javax.swing.JLabel Q1Q;
+    private javax.swing.JLabel Q2A;
+    private javax.swing.JLabel Q2Q;
+    private javax.swing.JLabel Q3A;
+    private javax.swing.JLabel Q3Q;
     private javax.swing.JToggleButton RunButton;
     private javax.swing.JTextField UserInput;
+    private javax.swing.JTextField allQ0Field;
+    private javax.swing.JTextField allQ1Field;
+    private javax.swing.JTextField allQ2Field;
     private javax.swing.JPanel ganttPanel;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1146,7 +1452,9 @@ private boolean queueContains(List<Process> queue, Process target) {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel processPanel;
     private javax.swing.JPanel queuePanel;
-    private javax.swing.JButton resetButton;
     private javax.swing.JSlider simulationSpeed;
+    private javax.swing.JTextField tqQ0Field;
+    private javax.swing.JTextField tqQ1Field;
+    private javax.swing.JTextField tqQ2Field;
     // End of variables declaration//GEN-END:variables
 }

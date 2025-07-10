@@ -112,6 +112,7 @@ public class NewJFrame extends javax.swing.JFrame {
         ganttPanel = new javax.swing.JPanel();
         simulationSpeed = new javax.swing.JSlider();
         jLabel9 = new javax.swing.JLabel();
+        resetButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -245,13 +246,25 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel9.setText("Simulation Speed");
 
+        resetButton.setText("Reset All");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,15 +282,15 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(140, 140, 140))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(4, 4, 4)
                                 .addComponent(Enter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(140, 140, 140)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,10 +306,6 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addGap(24, 24, 24)
                                 .addComponent(jLabel9)))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,7 +341,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter)
                     .addComponent(RunButton))
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -494,9 +505,37 @@ public class NewJFrame extends javax.swing.JFrame {
          } 
     }//GEN-LAST:event_RunButtonActionPerformed
 
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        // TODO add your handling code here:
+    processList.clear();
+
+    processPanel.removeAll();
+    processPanel.revalidate();
+    processPanel.repaint();
+
+    queuePanel.removeAll();
+    queuePanel.revalidate();
+    queuePanel.repaint();
+
+    ganttPanel.removeAll();
+    ganttPanel.revalidate();
+    ganttPanel.repaint();
+
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0);
+
+    // Reset input controls
+    UserInput.setEnabled(true);
+    UserInput.setText("");
+    Enter.setEnabled(true);
+    RunButton.setEnabled(true);
+    RunButton.setSelected(false);
+        
+    }//GEN-LAST:event_resetButtonActionPerformed
+
     private void runFIFO() {
     // Sort by arrival time
- processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
+    processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
 
     // Clear Gantt chart and update queue before simulation
     SwingUtilities.invokeLater(() -> {
@@ -813,7 +852,7 @@ public class NewJFrame extends javax.swing.JFrame {
             SwingUtilities.invokeLater(() -> updateQueueDisplay(finalQueue));
 
             try {
-                Thread.sleep(simulationDelay); // ✅ delay tied to slider
+                Thread.sleep(simulationDelay); //delay tied to slider
             } catch (InterruptedException ignored) {}
 
             time++;
@@ -909,7 +948,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
             int endTime = time;
 
-            // 🎯 Sync Gantt with actual execution
+            // Sync Gantt with actual execution
             if (startTime != endTime) {
                 SwingUtilities.invokeLater(() -> {
                     finalCurrent.stateLabel.setText(finalCurrent.remainingTime == 0 ? "Done" : "Ready");
@@ -1107,6 +1146,7 @@ private boolean queueContains(List<Process> queue, Process target) {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel processPanel;
     private javax.swing.JPanel queuePanel;
+    private javax.swing.JButton resetButton;
     private javax.swing.JSlider simulationSpeed;
     // End of variables declaration//GEN-END:variables
 }

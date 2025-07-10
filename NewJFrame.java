@@ -29,12 +29,12 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JScrollBar;
@@ -47,8 +47,7 @@ public class NewJFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      * 
      */
-    
-    private JTextField numProcField;
+   
     private List<Process> processList = new ArrayList<>();
     private String selectedAlgorithm = "FIFO"; // Default
     private volatile int simulationDelay = 500;  // default value
@@ -56,31 +55,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
     initComponents();
     setResizable(false);
-    
-    jPanel1.setVisible(false);
-    
-    jComboBox1.addActionListener(e -> {
-    boolean isMLFQ = jComboBox1.getSelectedItem().toString().equals("MLFQ");
 
-    tqQ0Field.setVisible(isMLFQ);
-    allQ0Field.setVisible(isMLFQ);
-    tqQ1Field.setVisible(isMLFQ);
-    allQ1Field.setVisible(isMLFQ);
-    tqQ2Field.setVisible(isMLFQ);
-    allQ2Field.setVisible(isMLFQ);
-
-    // Updated label variables based on your naming
-    Q1Q.setVisible(isMLFQ); // Q0 Quantum Label
-    Q1A.setVisible(isMLFQ); // Q0 Allotment Label
-    Q2Q.setVisible(isMLFQ); // Q1 Quantum Label
-    Q2A.setVisible(isMLFQ); // Q1 Allotment Label
-    Q3Q.setVisible(isMLFQ); // Q2 Quantum Label
-    Q3A.setVisible(isMLFQ); // Q2 Allotment Label
-
-    jPanel1.revalidate();
-    jPanel1.repaint();
-});
-    
     // 🆕 Simulation speed slider setup
     simulationSpeed.setMinimum(10);
     simulationSpeed.setMaximum(1000);
@@ -120,44 +95,29 @@ public class NewJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
+        AlgorithmLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Enter = new javax.swing.JButton();
         UserInput = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        HowManyProcessLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         processPanel = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        PIDLabel = new javax.swing.JLabel();
+        ProgressLabel = new javax.swing.JLabel();
+        StateLabel = new javax.swing.JLabel();
         RunButton = new javax.swing.JToggleButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        QueueLabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         queuePanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         ganttPanel = new javax.swing.JPanel();
         simulationSpeed = new javax.swing.JSlider();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        Q1Q = new javax.swing.JLabel();
-        Q1A = new javax.swing.JLabel();
-        Q2Q = new javax.swing.JLabel();
-        Q2A = new javax.swing.JLabel();
-        Q3Q = new javax.swing.JLabel();
-        Q3A = new javax.swing.JLabel();
-        tqQ0Field = new javax.swing.JTextField();
-        allQ0Field = new javax.swing.JTextField();
-        tqQ1Field = new javax.swing.JTextField();
-        allQ1Field = new javax.swing.JTextField();
-        tqQ2Field = new javax.swing.JTextField();
-        allQ2Field = new javax.swing.JTextField();
+        SimulationSpeedLabel = new javax.swing.JLabel();
+        resetButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,8 +128,8 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        jLabel4.setText("ALGORITHMS");
+        AlgorithmLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        AlgorithmLabel.setText("ALGORITHMS");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,8 +171,8 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 11)); // NOI18N
-        jLabel1.setText("How many process?");
+        HowManyProcessLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 11)); // NOI18N
+        HowManyProcessLabel.setText("How many process?");
 
         processPanel.setBackground(new java.awt.Color(255, 255, 255));
         processPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -230,14 +190,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(processPanel);
 
-        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        jLabel2.setText("PID");
+        PIDLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        PIDLabel.setText("PID");
 
-        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        jLabel3.setText("Progress");
+        ProgressLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        ProgressLabel.setText("Progress");
 
-        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        jLabel5.setText("State");
+        StateLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        StateLabel.setText("State");
 
         RunButton.setText("Run");
         RunButton.addActionListener(new java.awt.event.ActionListener() {
@@ -248,8 +208,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel7.setText("Queue:");
+        QueueLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        QueueLabel.setText("Queue:");
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -288,183 +248,69 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jScrollPane5.setViewportView(ganttPanel);
 
-        jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel9.setText("Simulation Speed");
+        SimulationSpeedLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        SimulationSpeedLabel.setText("Simulation Speed");
 
-        jLabel8.setText("Gantt Chart ");
-        jLabel8.setToolTipText("");
-        jLabel8.setRequestFocusEnabled(false);
-
-        jLabel10.setText("(Each box represents completionTime)");
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        Q1Q.setText("Q0 Quantum:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q1Q, gridBagConstraints);
-
-        Q1A.setText("Q0 Allotment:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q1A, gridBagConstraints);
-
-        Q2Q.setText("Q1 Quantum:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q2Q, gridBagConstraints);
-
-        Q2A.setText("Q1 Allotment:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q2A, gridBagConstraints);
-
-        Q3Q.setText("Q2 Quantum:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.ipadx = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q3Q, gridBagConstraints);
-
-        Q3A.setText("Q2 Allotment:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
-        jPanel1.add(Q3A, gridBagConstraints);
-
-        tqQ0Field.addActionListener(new java.awt.event.ActionListener() {
+        resetButton.setText("Reset All");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tqQ0FieldActionPerformed(evt);
+                resetButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(tqQ0Field, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(allQ0Field, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(tqQ1Field, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(allQ1Field, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(tqQ2Field, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = -18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 6);
-        jPanel1.add(allQ2Field, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(50, 50, 50)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AlgorithmLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Enter)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(140, 140, 140)))
-                                .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel4))
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(78, 78, 78)
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5)
-                                        .addGap(12, 12, 12)))))
+                                .addComponent(PIDLabel)
+                                .addGap(78, 78, 78)
+                                .addComponent(ProgressLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(StateLabel)
+                                .addGap(12, 12, 12))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(140, 140, 140))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(HowManyProcessLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Enter)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(resetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(RunButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(QueueLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(24, 24, 24)
-                                        .addComponent(jLabel9)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10)))
-                        .addGap(0, 44, Short.MAX_VALUE)))
+                                .addGap(24, 24, 24)
+                                .addComponent(SimulationSpeedLabel)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -472,48 +318,40 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addComponent(AlgorithmLabel)
+                    .addComponent(PIDLabel)
+                    .addComponent(ProgressLabel)
+                    .addComponent(StateLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13)
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(17, 17, 17)
-                                        .addComponent(jLabel7))
+                                        .addComponent(QueueLabel))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
+                                        .addComponent(SimulationSpeedLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 15, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(HowManyProcessLabel)
                     .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Enter)
                     .addComponent(RunButton))
-                .addGap(59, 59, 59)
-                .addComponent(jLabel6)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetButton)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel6)
+                .addGap(48, 48, 48)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -559,28 +397,7 @@ public class NewJFrame extends javax.swing.JFrame {
         RunButton.setSelected(false);
         JOptionPane.showMessageDialog(this, "Switched to: " + selected + ". Enter new process info.");
     }
-       boolean isMLFQ = selectedAlgorithm.equals("MLFQ");
-
-        jPanel1.setVisible(isMLFQ); // Show if MLFQ is selected, otherwise hide
-        jPanel1.revalidate();
-        jPanel1.repaint();
-
-// Optional: Pre-fill or clear values
-        if (isMLFQ) {
-        tqQ0Field.setText("4");
-        allQ0Field.setText("6");
-        tqQ1Field.setText("6");
-        allQ1Field.setText("10");
-        tqQ2Field.setText("8");
-        allQ2Field.setText("14");
-        } else {
-        tqQ0Field.setText("");
-        allQ0Field.setText("");
-        tqQ1Field.setText("");
-        allQ1Field.setText("");
-        tqQ2Field.setText("");
-        allQ2Field.setText("");
-        } 
+        
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
@@ -691,15 +508,40 @@ public class NewJFrame extends javax.swing.JFrame {
          } 
     }//GEN-LAST:event_RunButtonActionPerformed
 
-    private void tqQ0FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tqQ0FieldActionPerformed
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tqQ0FieldActionPerformed
+  processList.clear();
+
+    processPanel.removeAll();
+    processPanel.revalidate();
+    processPanel.repaint();
+
+    queuePanel.removeAll();
+    queuePanel.revalidate();
+    queuePanel.repaint();
+
+    ganttPanel.removeAll();
+    ganttPanel.revalidate();
+    ganttPanel.repaint();
+
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0);
+
+    // Reset input controls
+    UserInput.setEnabled(true);
+    UserInput.setText("");
+    Enter.setEnabled(true);
+    RunButton.setEnabled(true);
+    RunButton.setSelected(false);
+    resetButton.setEnabled(true);
+        
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     private void runFIFO() {
-    // Sort by arrival time
- processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
+     resetButton.setEnabled(false); // ⛔ Disable reset
 
-    // Clear Gantt chart and update queue before simulation
+    processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
+
     SwingUtilities.invokeLater(() -> {
         updateQueueDisplay(processList);
         ganttPanel.removeAll();
@@ -708,14 +550,13 @@ public class NewJFrame extends javax.swing.JFrame {
     });
 
     new Thread(() -> {
-        int[] currentTime = {0};  // mutable for lambda use
+        int[] currentTime = {0};
         int[] totalTAT = {0};
         int[] totalRT = {0};
 
         for (int i = 0; i < processList.size(); i++) {
             Process p = processList.get(i);
 
-            // Simulate idle time (if CPU is waiting for process to arrive)
             if (currentTime[0] < p.arrivalTime) {
                 try {
                     Thread.sleep((p.arrivalTime - currentTime[0]) * simulationDelay);
@@ -723,7 +564,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 currentTime[0] = p.arrivalTime;
             }
 
-            // Update the remaining queue display
             int finalI = i;
             SwingUtilities.invokeLater(() -> {
                 List<Process> remainingQueue = processList.subList(finalI, processList.size());
@@ -739,8 +579,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 protected Void doInBackground() throws Exception {
                     p.stateLabel.setText("Running");
                     for (int t = 1; t <= burst; t++) {
-                        Thread.sleep(simulationDelay); // ⏳ dynamic delay
-                        publish(t * 100 / burst); // update progress
+                        Thread.sleep(simulationDelay);
+                        publish(t * 100 / burst);
                     }
                     publish(100);
                     return null;
@@ -754,7 +594,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
                 @Override
                 protected void done() {
-                     SwingUtilities.invokeLater(() -> {
+                    SwingUtilities.invokeLater(() -> {
                         p.progressBar.setValue(100);
                         p.stateLabel.setText("Done");
 
@@ -766,23 +606,21 @@ public class NewJFrame extends javax.swing.JFrame {
                         totalRT[0] += p.responseTime;
                         totalTAT[0] += p.turnaroundTime;
 
-                        // ✅ Gantt update immediately
                         updateGanttChart(startTime, currentTime[0], p.pid);
 
-                        // Update remaining queue
                         if (finalIndex + 1 < processList.size()) {
                             updateQueueDisplay(processList.subList(finalIndex + 1, processList.size()));
                         } else {
                             updateQueueDisplay(new ArrayList<>());
                         }
 
-                        // Enable UI after final process
                         if (finalIndex == processList.size() - 1) {
                             updateTable(totalTAT[0], totalRT[0]);
                             Enter.setEnabled(true);
                             UserInput.setEnabled(true);
                             RunButton.setEnabled(true);
                             RunButton.setSelected(false);
+                            resetButton.setEnabled(true); // ✅ Re-enable reset
                         }
                     });
                 }
@@ -791,9 +629,8 @@ public class NewJFrame extends javax.swing.JFrame {
             worker.execute();
 
             try {
-                // Wait for process to complete before next
                 while (!worker.isDone()) {
-                    Thread.sleep(simulationDelay); // ⏳ dynamic check delay
+                    Thread.sleep(simulationDelay);
                 }
             } catch (InterruptedException e) {}
         }
@@ -801,7 +638,9 @@ public class NewJFrame extends javax.swing.JFrame {
 }
     
     private void runSJF() {
-      new Thread(() -> {
+resetButton.setEnabled(false); // ⛔ Disable reset during simulation
+
+    new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0;
         int completed = 0;
@@ -809,13 +648,11 @@ public class NewJFrame extends javax.swing.JFrame {
         int[] totalRT = {0};
         int[] totalTAT = {0};
 
-        // Initialize all processes
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
         }
 
-        // Sort by arrival time then burst time
         processList.sort((p1, p2) -> {
             if (p1.arrivalTime != p2.arrivalTime) {
                 return Integer.compare(p1.arrivalTime, p2.arrivalTime);
@@ -823,7 +660,6 @@ public class NewJFrame extends javax.swing.JFrame {
             return Integer.compare(p1.burstTime, p2.burstTime);
         });
 
-        // Clear Gantt chart before start
         SwingUtilities.invokeLater(() -> {
             ganttPanel.removeAll();
             ganttPanel.revalidate();
@@ -831,7 +667,6 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         while (completed < n) {
-            // Fill ready queue
             readyQueue.clear();
             for (Process p : processList) {
                 if (!p.started && p.arrivalTime <= time) {
@@ -839,20 +674,17 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
 
-            // Update queue display
             List<Process> displayQueue = new ArrayList<>(readyQueue);
             SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
 
-            // No ready processes, idle
             if (readyQueue.isEmpty()) {
                 time++;
                 try {
-                    Thread.sleep(simulationDelay); // ⏳ idle wait
+                    Thread.sleep(simulationDelay);
                 } catch (InterruptedException ignored) {}
                 continue;
             }
 
-            // Select shortest job
             readyQueue.sort((p1, p2) -> Integer.compare(p1.burstTime, p2.burstTime));
             Process current = readyQueue.get(0);
             current.started = true;
@@ -860,7 +692,6 @@ public class NewJFrame extends javax.swing.JFrame {
             int start = time;
             int end = time + current.burstTime;
 
-            // Record response & turnaround
             current.responseTime = start - current.arrivalTime;
             current.completionTime = end;
             current.turnaroundTime = end - current.arrivalTime;
@@ -870,18 +701,15 @@ public class NewJFrame extends javax.swing.JFrame {
             Process finalCurrent = current;
             SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
 
-            // Simulate execution
             for (int t = 0; t < current.burstTime; t++) {
                 try {
-                    Thread.sleep(simulationDelay); // ⏳ dynamic speed
+                    Thread.sleep(simulationDelay);
                 } catch (InterruptedException ignored) {}
 
                 int progress = (int) (((t + 1) / (float) current.burstTime) * 100);
                 SwingUtilities.invokeLater(() -> finalCurrent.progressBar.setValue(progress));
 
                 int finalTime = time + t + 1;
-
-                // Refresh queue at each tick
                 List<Process> tickQueue = new ArrayList<>();
                 for (Process p : processList) {
                     if (!p.started && p.arrivalTime <= finalTime) {
@@ -891,7 +719,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 SwingUtilities.invokeLater(() -> updateQueueDisplay(tickQueue));
             }
 
-            // Final UI update after process finishes
             SwingUtilities.invokeLater(() -> {
                 finalCurrent.stateLabel.setText("Done");
                 finalCurrent.progressBar.setValue(100);
@@ -902,20 +729,20 @@ public class NewJFrame extends javax.swing.JFrame {
             completed++;
         }
 
-        // All done — update table
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
             Enter.setEnabled(true);
             UserInput.setEnabled(true);
             RunButton.setEnabled(true);
             RunButton.setSelected(false);
+            resetButton.setEnabled(true); // ✅ Re-enable reset
         });
     }).start();
 }
 
     
     private void runSRTF() {
-     new Thread(() -> {
+   new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0;
         int completed = 0;
@@ -982,7 +809,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 current.remainingTime--;
 
                 if (current.remainingTime == 0) {
-                    // Final update occurs after current tick
                     Process finalCurrentDone = current;
                     int finalStart = start;
                     int finalEnd = time + 1;
@@ -991,6 +817,8 @@ public class NewJFrame extends javax.swing.JFrame {
                     current.turnaroundTime = finalCurrentDone.completionTime - finalCurrentDone.arrivalTime;
                     totalRT[0] += finalCurrentDone.responseTime;
                     totalTAT[0] += finalCurrentDone.turnaroundTime;
+
+                    readyQueue.remove(current);
 
                     SwingUtilities.invokeLater(() -> {
                         finalCurrentDone.stateLabel.setText("Done");
@@ -1003,18 +831,18 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
 
+            Set<Integer> seenPIDs = new HashSet<>();
             List<Process> displayQueue = new ArrayList<>();
             for (Process p : readyQueue) {
-                if (p.remainingTime > 0 && p != current) {
+                if (p.remainingTime > 0 && p != current && seenPIDs.add(p.pid)) {
                     displayQueue.add(p);
                 }
             }
 
-            List<Process> finalQueue = new ArrayList<>(displayQueue);
-            SwingUtilities.invokeLater(() -> updateQueueDisplay(finalQueue));
+            SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
 
             try {
-                Thread.sleep(simulationDelay); // ✅ delay tied to slider
+                Thread.sleep(simulationDelay);
             } catch (InterruptedException ignored) {}
 
             time++;
@@ -1022,10 +850,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
-            Enter.setEnabled(true);
-            UserInput.setEnabled(true);
-            RunButton.setEnabled(true);
-            RunButton.setSelected(false);
+            reenableControls(); // ✅ reset button enabled here
+            ganttPanel.revalidate(); // 🔄 Force Gantt sync
+            ganttPanel.repaint();
         });
     }).start();
 }
@@ -1047,6 +874,8 @@ public class NewJFrame extends javax.swing.JFrame {
         return;
     }
 
+    resetButton.setEnabled(false);
+
     new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0, completed = 0, n = processList.size();
@@ -1064,7 +893,6 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         while (completed < n) {
-            // 🆕 Clean up: avoid re-adding already completed processes
             for (Process p : processList) {
                 if (p.arrivalTime <= time && p.remainingTime > 0 && !queueContains(readyQueue, p)) {
                     readyQueue.add(p);
@@ -1078,7 +906,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
 
             Process current = readyQueue.remove(0);
-            if (current.remainingTime <= 0) continue; // Skip finished
+            if (current.remainingTime <= 0) continue;
 
             int execTime = Math.min(timeQuantum, current.remainingTime);
             int startTime = time;
@@ -1100,7 +928,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 int progress = (int)(((float)(current.burstTime - current.remainingTime) / current.burstTime) * 100);
                 SwingUtilities.invokeLater(() -> current.progressBar.setValue(progress));
 
-                // Dynamically check for new arrivals
                 for (Process p : processList) {
                     if (p.arrivalTime == time && p.remainingTime > 0 && !queueContains(readyQueue, p)) {
                         readyQueue.add(p);
@@ -1110,7 +937,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
             int endTime = time;
 
-            // 🎯 Sync Gantt with actual execution
             if (startTime != endTime) {
                 SwingUtilities.invokeLater(() -> {
                     finalCurrent.stateLabel.setText(finalCurrent.remainingTime == 0 ? "Done" : "Ready");
@@ -1120,7 +946,6 @@ public class NewJFrame extends javax.swing.JFrame {
             }
 
             if (current.remainingTime > 0) {
-                // ✔️ Avoid requeueing duplicates
                 if (!queueContains(readyQueue, current)) {
                     readyQueue.add(current);
                 }
@@ -1131,7 +956,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 completed++;
             }
 
-            // ✅ Filter queue for active processes only (no repeats)
             List<Process> queueDisplay = new ArrayList<>();
             for (Process p : readyQueue) {
                 if (p.remainingTime > 0 && !queueDisplay.contains(p)) {
@@ -1144,141 +968,227 @@ public class NewJFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
-            reenableControls();
+            reenableControls(); // ✅ calls resetButton.setEnabled(true)
+            ganttPanel.revalidate(); // 🔄 Gantt sync
+            ganttPanel.repaint();
         });
     }).start();
     }
     
- 
     private void runMLFQ() {
-    if (processList == null || processList.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No processes found. Please enter processes first.");
+ String[] quantumInput = new String[4];
+    for (int i = 0; i < 4; i++) {
+        quantumInput[i] = JOptionPane.showInputDialog(this,
+            "Enter Time Quantum for Q" + i + ":",
+            "MLFQ Quantum Input", JOptionPane.QUESTION_MESSAGE);
+
+        if (quantumInput[i] == null) {
+            reenableControls();
+            return;
+        }
+    }
+
+    int[] quantum = new int[4];
+    try {
+        for (int i = 0; i < 4; i++) {
+            quantum[i] = Integer.parseInt(quantumInput[i].trim());
+            if (quantum[i] <= 0) throw new NumberFormatException();
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid quantum input. Please enter valid positive integers.", "Error", JOptionPane.ERROR_MESSAGE);
+        reenableControls();
         return;
     }
 
-    // Retrieve quantum and allotment values from input fields
-    int tqQ0 = Integer.parseInt(tqQ0Field.getText());
-    int allQ0 = Integer.parseInt(allQ0Field.getText());
-    int tqQ1 = Integer.parseInt(tqQ1Field.getText());
-    int allQ1 = Integer.parseInt(allQ1Field.getText());
-    int tqQ2 = Integer.parseInt(tqQ2Field.getText());
-    int allQ2 = Integer.parseInt(allQ2Field.getText());
+    String[] allotmentInput = new String[4];
+    for (int i = 0; i < 4; i++) {
+        allotmentInput[i] = JOptionPane.showInputDialog(this,
+            "Enter Allotment Time for Q" + i + ":",
+            "MLFQ Allotment Input", JOptionPane.QUESTION_MESSAGE);
 
-    List<Queue<Process>> queues = new ArrayList<>();
-    for (int i = 0; i < 4; i++) queues.add(new LinkedList<>());
-
-    // Reset process fields
-    for (Process p : processList) {
-        p.remainingTime = p.burstTime;
-        p.queueLevel = 0;
-        p.usedTime = 0;
-        p.started = false;
+        if (allotmentInput[i] == null) {
+            reenableControls();
+            return;
+        }
     }
 
-    ganttPanel.removeAll();
-    ganttPanel.revalidate();
-    ganttPanel.repaint();
-
-    int time = 0;
-    List<Process> ready = new ArrayList<>(processList);
-    ready.sort(Comparator.comparingInt(p -> p.arrivalTime));
-
-    while (!ready.isEmpty() || queues.stream().anyMatch(q -> !q.isEmpty())) {
-        // Enqueue newly arrived processes to Q0
-        Iterator<Process> it = ready.iterator();
-        while (it.hasNext()) {
-            Process p = it.next();
-            if (p.arrivalTime <= time) {
-                p.queueLevel = 0;
-                p.usedTime = 0;
-                queues.get(0).offer(p);
-                it.remove();
-            }
-        }
-
-        // Pick the highest priority non-empty queue
-        Process running = null;
-        int qIndex = -1;
+    int[] allotments = new int[4];
+    try {
         for (int i = 0; i < 4; i++) {
-            if (!queues.get(i).isEmpty()) {
-                running = queues.get(i).poll();
-                qIndex = i;
-                break;
+            allotments[i] = Integer.parseInt(allotmentInput[i].trim());
+            if (allotments[i] <= 0) throw new NumberFormatException();
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid allotment input. Please enter valid positive integers.", "Error", JOptionPane.ERROR_MESSAGE);
+        reenableControls();
+        return;
+    }
+
+    resetButton.setEnabled(false);
+
+    new Thread(() -> {
+        List<Queue<Process>> queues = new ArrayList<>();
+        for (int i = 0; i < 4; i++) queues.add(new LinkedList<>()); // Only Q0–Q3
+
+        Map<Process, Integer> allotmentUsed = new HashMap<>();
+        int time = 0, completed = 0, n = processList.size();
+        int[] totalRT = {0}, totalTAT = {0};
+
+        for (Process p : processList) {
+            p.remainingTime = p.burstTime;
+            p.started = false;
+            p.currentQueueLevel = 0;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            ganttPanel.removeAll();
+            ganttPanel.revalidate();
+            ganttPanel.repaint();
+        });
+
+        while (completed < n) {
+            for (Process p : processList) {
+                if (p.arrivalTime == time && p.remainingTime > 0) {
+                    queues.get(0).add(p);
+                }
             }
-        }
 
-        if (running == null) {
-            time++;
-            continue;
-        }
+            Process current = null;
+            int currentQueue = -1;
 
-        int qt = (qIndex == 0) ? tqQ0 : (qIndex == 1) ? tqQ1 : (qIndex == 2) ? tqQ2 : Integer.MAX_VALUE;
-        int allot = (qIndex == 0) ? allQ0 : (qIndex == 1) ? allQ1 : (qIndex == 2) ? allQ2 : Integer.MAX_VALUE;
-
-        int runTime = Math.min(qt, running.remainingTime);
-        int endTime = time + runTime;
-
-        // Record response time
-        if (!running.started) {
-            running.started = true;
-            running.responseTime = time - running.arrivalTime;
-        }
-
-        // Visualize on Gantt chart
-        addToGanttChart(running, time, endTime, qIndex);
-
-        // Optional: simulate passage of time with delay
-        for (int t = time; t < endTime; t++) {
-            try {
-                Thread.sleep(simulationDelay);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            for (int q = 0; q < 4; q++) {
+                if (!queues.get(q).isEmpty()) {
+                    current = queues.get(q).poll();
+                    currentQueue = q;
+                    break;
+                }
             }
-        }
 
-        running.remainingTime -= runTime;
-        running.usedTime += runTime;
-        time += runTime;
+            if (current == null) {
+                time++;
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                continue;
+            }
 
-        if (running.remainingTime > 0) {
-            // Check for demotion
-            if (running.usedTime >= allot && qIndex < 3) {
-                running.queueLevel = qIndex + 1;
-                running.usedTime = 0;
-                queues.get(running.queueLevel).offer(running);
+            if (!current.started) {
+                current.started = true;
+                current.responseTime = time - current.arrivalTime;
+                totalRT[0] += current.responseTime;
+            }
+
+            allotmentUsed.putIfAbsent(current, 0);
+            int execTime = Math.min(quantum[currentQueue], current.remainingTime);
+            int startTime = time;
+
+            Process finalCurrent = current;
+            int finalQueue = currentQueue;
+            SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
+
+            for (int i = 0; i < execTime; i++) {
+                time++;
+                current.remainingTime--;
+
+                int progress = (int)(((float)(current.burstTime - current.remainingTime) / current.burstTime) * 100);
+                SwingUtilities.invokeLater(() -> finalCurrent.progressBar.setValue(progress));
+
+                for (Process p : processList) {
+                    if (p.arrivalTime == time && p.remainingTime > 0) {
+                        queues.get(0).add(p);
+                    }
+                }
+
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                if (current.remainingTime == 0) break;
+            }
+
+            int endTime = time;
+            boolean isDone = current.remainingTime == 0;
+
+            SwingUtilities.invokeLater(() -> {
+                finalCurrent.stateLabel.setText(isDone ? "Done" : "Ready");
+                if (isDone) finalCurrent.progressBar.setValue(100);
+                updateGanttChart(startTime, endTime, finalCurrent.pid, finalQueue);
+            });
+
+            if (!isDone) {
+                int used = allotmentUsed.get(current) + (endTime - startTime);
+                allotmentUsed.put(current, used);
+
+                if (currentQueue < 3 && used >= allotments[currentQueue]) {
+                    int nextQueue = currentQueue + 1;
+                    current.currentQueueLevel = nextQueue;
+                    queues.get(nextQueue).add(current);
+                } else {
+                    queues.get(currentQueue).add(current);
+                }
             } else {
-                queues.get(qIndex).offer(running);
+                current.completionTime = time;
+                current.turnaroundTime = current.completionTime - current.arrivalTime;
+                totalTAT[0] += current.turnaroundTime;
+                completed++;
+                SwingUtilities.invokeLater(() -> {
+                    finalCurrent.progressBar.setValue(100);
+                    finalCurrent.progressBar.repaint();
+                });
             }
-        } else {
-            running.completionTime = time;
-            running.turnaroundTime = time - running.arrivalTime;
+
+            List<Process> displayQueue = new ArrayList<>();
+            for (Queue<Process> q : queues) {
+                for (Process p : q) {
+                    if (p.remainingTime > 0 && !displayQueue.contains(p)) {
+                        displayQueue.add(p);
+                    }
+                }
+            }
+
+            SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
         }
-    }
 
-    repaint(); // refresh UI
-}
+        // 🟠 Final cleanup for stuck processes after main loop
+        for (Process p : processList) {
+            if (p.remainingTime > 0) {
+                int forcedStart = time;
+                int forcedDuration = p.remainingTime;
+                int queueLevel = p.currentQueueLevel;
 
-    
+                p.responseTime = (p.started ? p.responseTime : time - p.arrivalTime);
+                totalRT[0] += (!p.started ? p.responseTime : 0);
 
-private void addToGanttChart(Process p, int start, int end, int queueLevel) {
-    JLabel block = new JLabel(p.name + "[Q" + queueLevel + "]", SwingConstants.CENTER);
-    block.setOpaque(true);
-    block.setPreferredSize(new Dimension((end - start) * 30, 40)); // adjust scale as needed
-    block.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    block.setBackground(getColor(queueLevel));
-    ganttPanel.add(block);
-    ganttPanel.revalidate();
-    ganttPanel.repaint();
-}    
+                for (int i = 0; i < forcedDuration; i++) {
+                    time++;
+                    p.remainingTime--;
+                    final int progress = (int)(((float)(p.burstTime - p.remainingTime) / p.burstTime) * 100);
+                    Process finalP = p;
+                    SwingUtilities.invokeLater(() -> {
+                        finalP.progressBar.setValue(progress);
+                        finalP.stateLabel.setText("Running");
+                    });
+                    try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                }
 
-private Color getColor(int queueLevel) {
-    switch (queueLevel) {
-        case 0: return new Color(102, 204, 255); // Light Blue
-        case 1: return new Color(153, 255, 153); // Light Green
-        case 2: return new Color(255, 255, 153); // Light Yellow
-        case 3: return new Color(255, 204, 204); // Light Red
-        default: return Color.LIGHT_GRAY;
-    }
+                int forcedEnd = time;
+                p.completionTime = forcedEnd;
+                p.turnaroundTime = p.completionTime - p.arrivalTime;
+                totalTAT[0] += p.turnaroundTime;
+
+                Process finalP = p;
+                SwingUtilities.invokeLater(() -> {
+                    updateGanttChart(forcedStart, forcedEnd, finalP.pid, queueLevel);
+                    finalP.stateLabel.setText("Done");
+                    finalP.progressBar.setValue(100);
+                    finalP.progressBar.repaint();
+                });
+            }
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            updateTable(totalTAT[0], totalRT[0]);
+            ganttPanel.revalidate();
+            ganttPanel.repaint();
+            updateQueueDisplay(new ArrayList<>());
+            reenableControls();
+        });
+    }).start();
 }
 
 // Utility method to re-enable UI buttons
@@ -1287,6 +1197,7 @@ private void reenableControls() {
     UserInput.setEnabled(true);
     RunButton.setEnabled(true);
     RunButton.setSelected(false);
+    resetButton.setEnabled(true);
 }
 
     
@@ -1324,13 +1235,61 @@ private void reenableControls() {
 }
     
     private void updateGanttChart(int startTime, int endTime, int pid) {
-    JPanel block = new JPanel();
+   JPanel block = new JPanel();
     block.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     block.setBackground(Color.YELLOW);
+    block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+
+    JLabel pidLabel = new JLabel("P" + pid);
+    pidLabel.setFont(new Font("Arial", Font.BOLD, 14));
+    pidLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    JLabel timeLabel = new JLabel("Running...");
+    timeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    block.add(Box.createVerticalGlue());
+    block.add(pidLabel);
+    block.add(timeLabel);
+    block.add(Box.createVerticalGlue());
+
+    int blockWidth = Math.max((endTime - startTime) * 30, 50);
+    block.setPreferredSize(new Dimension(blockWidth, ganttPanel.getHeight()));
+    int finalBlockWidth = blockWidth;
+
+    SwingUtilities.invokeLater(() -> {
+        ganttPanel.add(block);
+        int totalBlocks = ganttPanel.getComponentCount();
+        int totalWidth = totalBlocks * (finalBlockWidth + 5);
+        ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
+        ganttPanel.revalidate();
+        ganttPanel.repaint();
+    });
+
+    new Thread(() -> {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ignored) {}
+        SwingUtilities.invokeLater(() -> {
+            block.setBackground(Color.CYAN);
+            timeLabel.setText(startTime + " - " + endTime);
+        });
+    }).start();
+}
+    
+    // Overloaded method for MLFQ that shows queue level
+private void updateGanttChart(int startTime, int endTime, int pid, int queueLevel) {
+    JPanel block = new JPanel();
+    block.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+    // 🎨 Optional: set color based on queue level
+    Color[] queueColors = { Color.RED, Color.ORANGE, Color.GREEN, Color.BLUE };
+    block.setBackground(queueLevel >= 0 && queueLevel < queueColors.length ? queueColors[queueLevel] : Color.LIGHT_GRAY);
+
     block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS)); // vertical layout
 
-    // PID Label
-    JLabel pidLabel = new JLabel("P" + pid);
+    // PID + Queue Label
+    JLabel pidLabel = new JLabel(queueLevel >= 0 ? "P" + pid + " (Q" + queueLevel + ")" : "P" + pid);
     pidLabel.setFont(new Font("Arial", Font.BOLD, 14));
     pidLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     pidLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1341,13 +1300,13 @@ private void reenableControls() {
     timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    block.add(Box.createVerticalGlue()); // spacing above
+    block.add(Box.createVerticalGlue());
     block.add(pidLabel);
     block.add(timeLabel);
-    block.add(Box.createVerticalGlue()); // spacing below
+    block.add(Box.createVerticalGlue());
 
     int blockWidth = Math.max((endTime - startTime) * 30, 50);
-    block.setPreferredSize(new Dimension(blockWidth, ganttPanel.getHeight())); // 👈 full height of panel
+    block.setPreferredSize(new Dimension(blockWidth, ganttPanel.getHeight()));
 
     SwingUtilities.invokeLater(() -> {
         ganttPanel.add(block);
@@ -1355,7 +1314,7 @@ private void reenableControls() {
         ganttPanel.repaint();
     });
 
-    // After execution, change color + show time range
+    // Animate and change to cyan after running
     new Thread(() -> {
         try {
             Thread.sleep((endTime - startTime) * 500);
@@ -1367,10 +1326,10 @@ private void reenableControls() {
         });
     }).start();
 
-    // Resize Gantt Panel width if needed
+    // Resize the Gantt panel if needed
     SwingUtilities.invokeLater(() -> {
         int totalBlocks = ganttPanel.getComponentCount();
-        int totalWidth = totalBlocks * (blockWidth + 5); // 5 = spacing
+        int totalWidth = totalBlocks * (blockWidth + 5);
         ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
         ganttPanel.revalidate();
         ganttPanel.repaint();
@@ -1420,31 +1379,19 @@ private boolean queueContains(List<Process> queue, Process target) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AlgorithmLabel;
     private javax.swing.JButton Enter;
-    private javax.swing.JLabel Q1A;
-    private javax.swing.JLabel Q1Q;
-    private javax.swing.JLabel Q2A;
-    private javax.swing.JLabel Q2Q;
-    private javax.swing.JLabel Q3A;
-    private javax.swing.JLabel Q3Q;
+    private javax.swing.JLabel HowManyProcessLabel;
+    private javax.swing.JLabel PIDLabel;
+    private javax.swing.JLabel ProgressLabel;
+    private javax.swing.JLabel QueueLabel;
     private javax.swing.JToggleButton RunButton;
+    private javax.swing.JLabel SimulationSpeedLabel;
+    private javax.swing.JLabel StateLabel;
     private javax.swing.JTextField UserInput;
-    private javax.swing.JTextField allQ0Field;
-    private javax.swing.JTextField allQ1Field;
-    private javax.swing.JTextField allQ2Field;
     private javax.swing.JPanel ganttPanel;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1452,9 +1399,7 @@ private boolean queueContains(List<Process> queue, Process target) {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel processPanel;
     private javax.swing.JPanel queuePanel;
+    private javax.swing.JButton resetButton;
     private javax.swing.JSlider simulationSpeed;
-    private javax.swing.JTextField tqQ0Field;
-    private javax.swing.JTextField tqQ1Field;
-    private javax.swing.JTextField tqQ2Field;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,7 @@ Diwa, Francis Marc Nikko G.
 
 Contributions:
 
-Nombrado:
+Nombrado (MLD-jc):
 
 - Integrated the CPU algorithms to the dynamic UI to have real time visualization
 - Implemented a color scheme for the FIFO, SJF, SRTF, RR to have an indicator in gnatt chart like when the process is running it indicates as yellow and if it's already done it's cyan
@@ -16,7 +16,7 @@ Nombrado:
 - Implemented a queue panel based of the algorithms process when running in each algorithms (depends on what the user want's to select) shows the process next queue
 - Added the simulation speed where user can adjust the sim speed of the process during it's execution or before the user enters run to execute the process 
 
-Diwa:
+Diwa (Francismarcnikko123):
 
 - Implemented RR and MLFQ
 
@@ -31,7 +31,8 @@ Instructions on how to run the simulation:
 
 1. Execute the project
 2. After executing you will see this:
-
 <img width="1123" height="531" alt="Screenshot 2025-07-12 at 12 56 55 PM" src="https://github.com/user-attachments/assets/d0a5f2fd-8fb4-42ee-af0e-467a87c736d2" />
+3.) 
+
 
 

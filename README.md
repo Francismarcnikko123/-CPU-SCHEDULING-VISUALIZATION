@@ -23,7 +23,7 @@ Diwa (Francismarcnikko123):
 
 PROJECT OVERVIEW: 
 
-With the help of Swing, this project, a Java-based CPU Scheduling Simulator, enables users to view and work with well-known scheduling methods. The Multilevel Feedback Queue (MLFQ), Round Robin, SRTF (Preemptive), SJF (Non-Preemptive), and FIFO algorithms are all supported by the simulator.
+With the help of Swing in java apache netbeans, this project, a Java-based CPU Scheduling Visualizer, enables users to view and work with well-known scheduling methods. The Multilevel Feedback Queue (MLFQ), Round Robin, SRTF (Preemptive), SJF (Non-Preemptive), and FIFO algorithms are all supported by the simulator.
 
 Users can choose a scheduling algorithm from a dropdown menu and manually enter the number of processes, their arrival time, and their burst time. The simulator asks the user to enter parameters before the algorithm is executed for algorithms that need further configuration, such as MLFQ (quantum and allotment time per queue level) and Round Robin (time quantum).
 

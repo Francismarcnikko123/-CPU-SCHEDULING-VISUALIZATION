@@ -50,6 +50,15 @@ Note: In RR and MLFQ since it ask for the time slice and allotment time, you hav
 
 SHORT DESCRIPTION OF THE ALGORITHMS THAT ARE IMPLEMENTED: 
 
+1.) FCFS/FIFO (First Come, First Serve/ First in, First out):
+- Non preemptive scheduling algorithm
+- Process are executed in the order of their arrival time
+- It's simple but it may cause long waiting times for short jobs stuck behind long ones which you call a convoy effect
+2. SJF (Short Job First):
+3. SRTF (
+4. RR (Round Robin): 
+5. MLFQ
+
 
 
 

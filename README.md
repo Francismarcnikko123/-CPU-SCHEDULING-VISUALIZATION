@@ -1,11 +1,11 @@
 # -CPU-SCHEDULING-VISUALIZATION
 PROJECT 01
 
-Member: 
+MEMBERS:
 Nombrado, John Cale N.
 Diwa, Francis Marc Nikko G.
 
-Contributions:
+CONTRIBUTION
 
 Nombrado (MLD-jc):
 
@@ -27,7 +27,7 @@ With the help of Swing in java apache netbeans, this project, a Java-based CPU S
 
 Users can choose a scheduling algorithm from a dropdown menu and manually enter the number of processes, their arrival time, and their burst time. The simulator asks the user to enter parameters before the algorithm is executed for algorithms that need further configuration, such as MLFQ (quantum and allotment time per queue level) and Round Robin (time quantum).
 
-Instructions on how to run the simulation:
+INSTRUCTIONS ON HOW TO RUN THE SIMULATION:
 
 1. Execute the project
 2. After executing you will see this:

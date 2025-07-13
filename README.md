@@ -42,9 +42,13 @@ Instructions on how to run the simulation:
 <img width="1124" height="520" alt="Screenshot 2025-07-13 at 3 33 32 PM" src="https://github.com/user-attachments/assets/b51d231f-f8c9-4f43-9841-3a8cf6a49030" />
 <img width="1128" height="526" alt="Screenshot 2025-07-13 at 3 33 58 PM" src="https://github.com/user-attachments/assets/88691700-d14f-4f0d-b849-857ceaa26ef2" />
 <img width="1123" height="534" alt="Screenshot 2025-07-13 at 3 34 59 PM" src="https://github.com/user-attachments/assets/ab5ad179-4816-4242-a6c9-d788674167e6" />
-6.) Example of MLFQ: "After you input how many process you want, it will ask for the time slice and the allotment time for each queue (Q0,Q1,Q2,Q3)<img width="1122" height="527" alt="Screenshot 2025-07-13 at 3 41 33 PM" src="https://github.com/user-attachments/assets/dbd8a461-0cd2-42ba-800e-d5d9aedb743c" /><img width="1121" height="532" alt="Screenshot 2025-07-13 at 3 41 47 PM" src="https://github.co<img width="1125" height="537" alt="Screenshot 2025-07-13 at 3 42 05 PM" src="https://github.com/user-attachments/assets/00e44885-a2d6-44bf-a684-a462c9ad8c22" />
-m/user-attachments/assets/353b4dea-f368-45d2-a997-47c210b593b9" />
-<img width="1129" height="532" alt="Screenshot 2025-07-13 at 3 42 34 PM" src="https://github.com/user-attachments/assets/3a585519-d4e4-44b3-9e9d-4ce068419f5e" />
+6.) Example of MLFQ: "After you input how many process you want, it will ask for the time slice and the allotment time for each queue (Q0,Q1,Q2,Q3, you need to press the run button a couple times for it to ask and the final click will execute the process after you input the necessary information)
+<img width="1129" height="525" alt="Screenshot 2025-07-13 at 3 54 39 PM" src="https://github.com/user-attachments/assets/be1dae4d-d3f1-49ed-a195-70187c6ce94a" />
+<img width="1137" height="524" alt="Screenshot 2025-07-13 at 3 55 10 PM" src="https://github.com/user-attachments/assets/d8d7d5ba-d2ae-42de-8b81-cce80e8cbb3a" />
+<img width="1129" height="529" alt="Screenshot 2025-07-13 at 3 55 33 PM" src="https://github.com/user-attachments/assets/06a49e1d-3b64-4ff3-b961-c31a2712865f" />
+<img width="1122" height="533" alt="Screenshot 2025-07-13 at 3 55 56 PM" src="https://github.com/user-attachments/assets/fa1b5f12-1c3d-4015-a8b0-969ddc5e0149" />
+<img width="1120" height="538" alt="Screenshot 2025-07-13 at 3 57 03 PM" src="https://github.com/user-attachments/assets/8c52b848-f3d7-4d90-956b-4c8ffe0d4781" />
+
 
 Note: In RR and MLFQ since it ask for the time slice and allotment time, you have to press run button first before executing the process.
 

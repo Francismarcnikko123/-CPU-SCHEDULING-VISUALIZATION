@@ -49,19 +49,33 @@ Instructions on how to run the simulation:
 <img width="1122" height="533" alt="Screenshot 2025-07-13 at 3 55 56 PM" src="https://github.com/user-attachments/assets/fa1b5f12-1c3d-4015-a8b0-969ddc5e0149" />
 <img width="1120" height="538" alt="Screenshot 2025-07-13 at 3 57 03 PM" src="https://github.com/user-attachments/assets/8c52b848-f3d7-4d90-956b-4c8ffe0d4781" />
 
-
-Note: In RR and MLFQ since it ask for the time slice and allotment time, you have to press run button first before executing the process. The MLFQ in gnatt chart also shows the high priority and lower priority based of colors (Q0 as red - Highest priority, Q1 as orange, Q3 as green, and Q4 as blue - lowest priority). You can press the reset button, if you want to try new values.
+Note: In RR and MLFQ since it ask for the time slice and allotment time, you have to press run button first before executing the process. The MLFQ in gnatt chart also shows the high priority and lower priority based of colors (Q0 as red - Highest priority, Q1 as orange, Q3 as green, and Q4 as blue - lowest priority). You can press the reset button, if you want to try again.
 
 SHORT DESCRIPTION OF THE ALGORITHMS THAT ARE IMPLEMENTED: 
 
 1.) FCFS/FIFO (First Come, First Serve/ First in, First out):
-- Non preemptive scheduling algorithm
 - Process are executed in the order of their arrival time
 - It's simple but it may cause long waiting times for short jobs stuck behind long ones which you call a convoy effect
 2. SJF (Short Job First):
-3. SRTF (
-4. RR (Round Robin): 
-5. MLFQ
+- Non preemptive algorithm
+- Select the process with the shortest burst time from the ready queue
+- Efficient in reducing average in turnaround time but not ideal for interactive systems
+3. SRTF (Shortest Remaining Time First0:
+- Preemptive version of SJF
+- Always runs the process with the least remaining burst time
+- Preempts the current process if shorter job arrives
+- Minimize average waiting and turnaround time but can cause starvation for long processes
+4. RR (Round Robin):
+- Preemptive and fair
+- Each process gets fixed a fixed time quantum
+- If a process isn't finished in it's time slice, it's place at the back of the queue
+- Ideal for time-sharing systems, but performance depends on the quantum size
+5. MLFQ (Multilevel feedback queue):
+- Advanced preemptive algorithm with multiple queues (Q0–Q3 in your case)
+- Each queue has its own time quantum and allotment time
+- Processes start in high-priority queues (Q0) and get demoted if they exceed their allotment time
+- New or I/O-bound processes stay in higher queues, while CPU-bound ones sink lower
+- Balances response time and throughput very well
 
 
 

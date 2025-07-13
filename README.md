@@ -9,17 +9,17 @@ Contributions:
 
 Nombrado (MLD-jc):
 
+- Designed the UI
 - Integrated the CPU algorithms to the dynamic UI to have real time visualization
 - Implemented a color scheme for the FIFO, SJF, SRTF, RR to have an indicator in gnatt chart like when the process is running it indicates as yellow and if it's already done it's cyan
 - Finalized the MLFQ and RR to be in sync with the other UI components and to have real time visualization
 - Added an indicator to MLFQ in the gnatt chart where it shows the highest priority and the lowest (This is only for the MLFQ algorithm since it has quequing priorities)
-- Implemented a queue panel based of the algorithms process when running in each algorithms (depends on what the user want's to select) shows the process next queue
+- Implemented a queue panel with real time visualization of the algorithms process when running in each algorithms shows the process of the next queue
 - Added the simulation speed where user can adjust the sim speed of the process during it's execution or before the user enters run to execute the process 
 
 Diwa (Francismarcnikko123):
 
 - Implemented RR and MLFQ
-
 
 PROJECT OVERVIEW: 
 
@@ -32,7 +32,24 @@ Instructions on how to run the simulation:
 1. Execute the project
 2. After executing you will see this:
 <img width="1123" height="531" alt="Screenshot 2025-07-12 at 12 56 55 PM" src="https://github.com/user-attachments/assets/d0a5f2fd-8fb4-42ee-af0e-467a87c736d2" />
-3.) 
+3.) You can select between the five algorithms that are implmented (FIFO, SJF, and SRTF) does not required allotment time and Queue priority input, it's only for MLFQ and RR. 
+<img width="1123" height="513" alt="Screenshot 2025-07-13 at 3 27 03 PM" src="https://github.com/user-attachments/assets/03bc1b5a-85cd-4feb-ae2e-1eed808e920d" />
+4.) Example of FIFO, SJF, and SRTF outputs: (In this screenshot, I only use the FIFO but when executing the program you can select any algorithm you want to run the process with)
+<img width="1132" height="550" alt="Screenshot 2025-07-13 at 3 30 24 PM" src="https://github.com/user-attachments/assets/eb8ae3c7-7237-4c2a-8672-68d6d609550a" />
+<img width="1124" height="527" alt="Screenshot 2025-07-13 at 3 31 32 PM" src="https://github.com/user-attachments/assets/b9aa014e-e333-4971-9527-cad3d2f72b66" />
+5.) Example of RR when running the selected algorithm: (After you input how many process you want, it will then ask for the time quantum which is the time slice)
+<img width="1129" height="533" alt="Screenshot 2025-07-13 at 3 33 14 PM" src="https://github.com/user-attachments/assets/ca231a48-8284-4aa3-8669-4a60779863db" />
+<img width="1124" height="520" alt="Screenshot 2025-07-13 at 3 33 32 PM" src="https://github.com/user-attachments/assets/b51d231f-f8c9-4f43-9841-3a8cf6a49030" />
+<img width="1128" height="526" alt="Screenshot 2025-07-13 at 3 33 58 PM" src="https://github.com/user-attachments/assets/88691700-d14f-4f0d-b849-857ceaa26ef2" />
+<img width="1123" height="534" alt="Screenshot 2025-07-13 at 3 34 59 PM" src="https://github.com/user-attachments/assets/ab5ad179-4816-4242-a6c9-d788674167e6" />
+6.) Example of MLFQ: "After you input how many process you want, it will ask for the time slice and the allotment time for each queue (Q0,Q1,Q2,Q3)<img width="1122" height="527" alt="Screenshot 2025-07-13 at 3 41 33 PM" src="https://github.com/user-attachments/assets/dbd8a461-0cd2-42ba-800e-d5d9aedb743c" /><img width="1121" height="532" alt="Screenshot 2025-07-13 at 3 41 47 PM" src="https://github.co<img width="1125" height="537" alt="Screenshot 2025-07-13 at 3 42 05 PM" src="https://github.com/user-attachments/assets/00e44885-a2d6-44bf-a684-a462c9ad8c22" />
+m/user-attachments/assets/353b4dea-f368-45d2-a997-47c210b593b9" />
+<img width="1129" height="532" alt="Screenshot 2025-07-13 at 3 42 34 PM" src="https://github.com/user-attachments/assets/3a585519-d4e4-44b3-9e9d-4ce068419f5e" />
+
+Note: In RR and MLFQ since it ask for the time slice and allotment time, you have to press run button first before executing the process.
+
+SHORT DESCRIPTION OF THE ALGORITHMS THAT ARE IMPLEMENTED: 
+
 
 
 

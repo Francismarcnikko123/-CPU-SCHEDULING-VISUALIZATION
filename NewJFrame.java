@@ -25,9 +25,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.KeyboardFocusManager;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,6 +57,20 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
     initComponents();
     setResizable(false);
+    
+    
+    
+    jComboBox1.setFocusable(false);
+
+    // 🧱 (Optional) Additional protection: Block ALL key events when ComboBox is focused
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+        if (jComboBox1.isFocusOwner() &&
+            (e.getID() == KeyEvent.KEY_PRESSED || e.getID() == KeyEvent.KEY_TYPED || e.getID() == KeyEvent.KEY_RELEASED)) {
+            e.consume();  // Stop the event from being processed
+            return true;
+        }
+        return false;
+    });
 
     // 🆕 Simulation speed slider setup
     simulationSpeed.setMinimum(10);
@@ -118,6 +134,11 @@ public class NewJFrame extends javax.swing.JFrame {
         simulationSpeed = new javax.swing.JSlider();
         SimulationSpeedLabel = new javax.swing.JLabel();
         resetButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        actionLog = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +152,7 @@ public class NewJFrame extends javax.swing.JFrame {
         AlgorithmLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         AlgorithmLabel.setText("ALGORITHMS");
 
+        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -175,7 +197,7 @@ public class NewJFrame extends javax.swing.JFrame {
         HowManyProcessLabel.setText("How many process?");
 
         processPanel.setBackground(new java.awt.Color(255, 255, 255));
-        processPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        processPanel.setBorder(new javax.swing.border.MatteBorder(null));
 
         javax.swing.GroupLayout processPanelLayout = new javax.swing.GroupLayout(processPanel);
         processPanel.setLayout(processPanelLayout);
@@ -214,7 +236,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         queuePanel.setBackground(new java.awt.Color(255, 255, 255));
-        queuePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        queuePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout queuePanelLayout = new javax.swing.GroupLayout(queuePanel);
         queuePanel.setLayout(queuePanelLayout);
@@ -233,13 +255,13 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         ganttPanel.setBackground(new java.awt.Color(255, 255, 255));
-        ganttPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ganttPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout ganttPanelLayout = new javax.swing.GroupLayout(ganttPanel);
         ganttPanel.setLayout(ganttPanelLayout);
         ganttPanelLayout.setHorizontalGroup(
             ganttPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1011, Short.MAX_VALUE)
+            .addGap(0, 1082, Short.MAX_VALUE)
         );
         ganttPanelLayout.setVerticalGroup(
             ganttPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,59 +280,88 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        actionLog.setEditable(false);
+        actionLog.setColumns(50);
+        actionLog.setLineWrap(true);
+        actionLog.setRows(8);
+        actionLog.setWrapStyleWord(true);
+        actionLog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane4.setViewportView(actionLog);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Action Message");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Gnatt Chart ");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("execution timeline of each process :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AlgorithmLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(PIDLabel)
-                                .addGap(78, 78, 78)
-                                .addComponent(ProgressLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(StateLabel)
-                                .addGap(12, 12, 12))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(140, 140, 140))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(HowManyProcessLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Enter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(resetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(RunButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(QueueLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(AlgorithmLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(PIDLabel)
+                                        .addGap(78, 78, 78)
+                                        .addComponent(ProgressLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(StateLabel)
+                                        .addGap(12, 12, 12))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(224, 224, 224))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(HowManyProcessLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Enter)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(resetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(RunButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(SimulationSpeedLabel)))))
+                                .addComponent(QueueLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(24, 24, 24)
+                                                .addComponent(SimulationSpeedLabel))))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 80, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -324,8 +375,21 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(StateLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(HowManyProcessLabel)
+                            .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Enter)
+                            .addComponent(RunButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resetButton)
+                        .addGap(0, 0, 0)
+                        .addComponent(jLabel6)
+                        .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
@@ -340,20 +404,18 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(HowManyProcessLabel)
-                    .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Enter)
-                    .addComponent(RunButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetButton)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel6)
-                .addGap(48, 48, 48)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(1, 1, 1)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -536,9 +598,18 @@ public class NewJFrame extends javax.swing.JFrame {
     resetButton.setEnabled(true);
         
     }//GEN-LAST:event_resetButtonActionPerformed
-
+    private void logAction(String message) {
+    SwingUtilities.invokeLater(() -> {
+        actionLog.append(message + "\n");
+        actionLog.setCaretPosition(actionLog.getDocument().getLength());
+    });
+}
+    
     private void runFIFO() {
      resetButton.setEnabled(false); // ⛔ Disable reset
+     
+     SwingUtilities.invokeLater(() -> actionLog.setText(""));
+     logAction("▶️ [ FIFO Scheduling] started");
 
     processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
 
@@ -557,6 +628,25 @@ public class NewJFrame extends javax.swing.JFrame {
         for (int i = 0; i < processList.size(); i++) {
             Process p = processList.get(i);
 
+            if (p.burstTime == 0) {
+                int finalIndex = i;
+                SwingUtilities.invokeLater(() -> {
+                    p.progressBar.setValue(100);
+                    p.stateLabel.setText("Done");
+                    updateGanttChart(p.arrivalTime, p.arrivalTime, p.pid);
+                    updateQueueDisplay(processList.subList(finalIndex + 1, processList.size()));
+                    if (finalIndex == processList.size() - 1) {
+                        updateTable(totalTAT[0], totalRT[0]);
+                        Enter.setEnabled(true);
+                        UserInput.setEnabled(true);
+                        RunButton.setEnabled(true);
+                        RunButton.setSelected(false);
+                        resetButton.setEnabled(true);
+                    }
+                });
+                continue;
+            }
+
             if (currentTime[0] < p.arrivalTime) {
                 try {
                     Thread.sleep((p.arrivalTime - currentTime[0]) * simulationDelay);
@@ -572,6 +662,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
             int finalIndex = i;
             int startTime = currentTime[0];
+            logAction("FIFO: " + p.pid + " started at " + startTime);
             int burst = p.burstTime;
 
             SwingWorker<Void, Integer> worker = new SwingWorker<>() {
@@ -601,6 +692,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         currentTime[0] = startTime + burst;
                         p.responseTime = startTime - p.arrivalTime;
                         p.completionTime = currentTime[0];
+                        logAction("FIFO: " + p.pid + " completed at " + currentTime[0]);
                         p.turnaroundTime = p.completionTime - p.arrivalTime;
 
                         totalRT[0] += p.responseTime;
@@ -621,6 +713,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             RunButton.setEnabled(true);
                             RunButton.setSelected(false);
                             resetButton.setEnabled(true); // ✅ Re-enable reset
+                            logAction("[FIFO Scheduling] Completed!");
                         }
                     });
                 }
@@ -638,7 +731,10 @@ public class NewJFrame extends javax.swing.JFrame {
 }
     
     private void runSJF() {
-resetButton.setEnabled(false); // ⛔ Disable reset during simulation
+    resetButton.setEnabled(false); // ⛔ Disable reset during simulation
+
+    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    logAction("▶️ [SJF Scheduling] started");
 
     new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
@@ -689,6 +785,24 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             Process current = readyQueue.get(0);
             current.started = true;
 
+            if (current.burstTime == 0) {
+                int finalTime = time;
+                SwingUtilities.invokeLater(() -> {
+                    current.stateLabel.setText("Done");
+                    current.progressBar.setValue(100);
+                    updateGanttChart(finalTime, finalTime, current.pid);
+                    updateQueueDisplay(new ArrayList<>());
+                });
+                current.responseTime = 0;
+                current.completionTime = time;
+                current.turnaroundTime = 0;
+                totalRT[0] += current.responseTime;
+                totalTAT[0] += current.turnaroundTime;
+                completed++;
+                continue;
+            }
+            
+            logAction("SJF: " + current.pid + " started at " + time);
             int start = time;
             int end = time + current.burstTime;
 
@@ -727,6 +841,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
 
             time = end;
             completed++;
+            logAction("SJF: " + current.pid + " completed at " + time);
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -736,13 +851,17 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             RunButton.setEnabled(true);
             RunButton.setSelected(false);
             resetButton.setEnabled(true); // ✅ Re-enable reset
+            logAction("[SJF Scheduling] Completed!");
         });
     }).start();
 }
 
     
     private void runSRTF() {
-        resetButton.setEnabled(false); // ⛔ Disable reset during simulation
+        
+    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    logAction("▶️ [SRTF Scheduling] started");
+        
    new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0;
@@ -755,7 +874,26 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             p.remainingTime = p.burstTime;
             p.started = false;
         }
+        
+        for (Process p : processList) {
+    if (p.burstTime == 0) {
+        p.remainingTime = 0;
+        p.completionTime = p.arrivalTime;
+        p.turnaroundTime = 0;
+        p.responseTime = 0;
+        totalRT[0] += p.responseTime;
+        totalTAT[0] += p.turnaroundTime;
+        completed++;
 
+        Process finalP = p;
+        SwingUtilities.invokeLater(() -> {
+            finalP.stateLabel.setText("Done");
+            finalP.progressBar.setValue(100);
+            updateGanttChart(finalP.arrivalTime, finalP.arrivalTime, finalP.pid);
+        });
+    }
+}
+        
         SwingUtilities.invokeLater(() -> {
             ganttPanel.removeAll();
             ganttPanel.revalidate();
@@ -782,6 +920,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             }
 
             if (shortest != null) {
+                logAction("SRTF: Switched to " + shortest.pid + " at time " + time);
                 if (current != shortest) {
                     if (current != null && current.remainingTime > 0) {
                         Process finalOld = current;
@@ -825,6 +964,8 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
                         finalCurrentDone.stateLabel.setText("Done");
                         finalCurrentDone.progressBar.setValue(100);
                         updateGanttChart(finalStart, finalEnd, finalCurrentDone.pid);
+                        
+                        logAction("SRTF: " + finalCurrentDone.pid + " completed at time " + finalEnd);
                     });
 
                     current = null;
@@ -854,11 +995,15 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             reenableControls(); // ✅ reset button enabled here
             ganttPanel.revalidate(); // 🔄 Force Gantt sync
             ganttPanel.repaint();
+            logAction("✅ [SRTF Scheduling] completed"); 
         });
     }).start();
 }
     
     private void runRR() {
+    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    logAction("▶️ [Round Robin Scheduling] started");
+
     String input = JOptionPane.showInputDialog(this, "Enter Time Quantum:", "Round Robin Settings", JOptionPane.QUESTION_MESSAGE);
     if (input == null) {
         reenableControls();
@@ -875,7 +1020,23 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
         return;
     }
 
+    logAction("⏱ Time Quantum: " + timeQuantum);
     resetButton.setEnabled(false);
+
+    boolean allZeroBurst = processList.stream().allMatch(p -> p.burstTime == 0);
+    if (allZeroBurst) {
+        int choice = JOptionPane.showConfirmDialog(
+            this,
+            "All burst times are 0 — no execution will take place.\nProceed anyway?",
+            "Warning",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+        if (choice != JOptionPane.YES_OPTION) {
+            reenableControls();
+            return;
+        }
+    }
 
     new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
@@ -885,6 +1046,27 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
+        }
+
+        // ✅ Log immediately finished (burstTime == 0) processes
+        for (Process p : processList) {
+            if (p.burstTime == 0) {
+                p.remainingTime = 0;
+                p.completionTime = p.arrivalTime;
+                p.responseTime = 0;
+                p.turnaroundTime = 0;
+                totalRT[0] += p.responseTime;
+                totalTAT[0] += p.turnaroundTime;
+                completed++;
+
+                Process finalP = p;
+                SwingUtilities.invokeLater(() -> {
+                    finalP.stateLabel.setText("Done");
+                    finalP.progressBar.setValue(100);
+                    updateGanttChart(finalP.arrivalTime, finalP.arrivalTime, finalP.pid);
+                    logAction("⚡ " + finalP.pid + " completed instantly (burst time = 0)");
+                });
+            }
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -918,6 +1100,8 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
                 totalRT[0] += current.responseTime;
             }
 
+            logAction("▶️ " + current.pid + " started at " + startTime);
+
             Process finalCurrent = current;
             SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
 
@@ -950,11 +1134,13 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
                 if (!queueContains(readyQueue, current)) {
                     readyQueue.add(current);
                 }
+                logAction("🔁 " + current.pid + " paused at " + endTime + " (remaining: " + current.remainingTime + ")");
             } else {
                 current.completionTime = time;
                 current.turnaroundTime = current.completionTime - current.arrivalTime;
                 totalTAT[0] += current.turnaroundTime;
                 completed++;
+                logAction("✅ " + current.pid + " completed at " + time);
             }
 
             List<Process> queueDisplay = new ArrayList<>();
@@ -969,20 +1155,23 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
 
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
-            reenableControls(); // ✅ calls resetButton.setEnabled(true)
-            ganttPanel.revalidate(); // 🔄 Gantt sync
+            reenableControls();
+            ganttPanel.revalidate();
             ganttPanel.repaint();
+            logAction("✔️ All processes completed (RR).");
         });
     }).start();
-    }
+}
+
     
     private void runMLFQ() {
- String[] quantumInput = new String[4];
+    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    logAction("▶️ [MLFQ Scheduling] started");
+
+    String[] quantumInput = new String[4];
     for (int i = 0; i < 4; i++) {
         quantumInput[i] = JOptionPane.showInputDialog(this,
-            "Enter Time Quantum for Q" + i + ":",
-            "MLFQ Quantum Input", JOptionPane.QUESTION_MESSAGE);
-
+            "Enter Time Quantum for Q" + i + ":", "MLFQ Quantum Input", JOptionPane.QUESTION_MESSAGE);
         if (quantumInput[i] == null) {
             reenableControls();
             return;
@@ -996,7 +1185,8 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             if (quantum[i] <= 0) throw new NumberFormatException();
         }
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid quantum input. Please enter valid positive integers.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid quantum input. Please enter valid positive integers.",
+                "Error", JOptionPane.ERROR_MESSAGE);
         reenableControls();
         return;
     }
@@ -1004,9 +1194,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
     String[] allotmentInput = new String[4];
     for (int i = 0; i < 4; i++) {
         allotmentInput[i] = JOptionPane.showInputDialog(this,
-            "Enter Allotment Time for Q" + i + ":",
-            "MLFQ Allotment Input", JOptionPane.QUESTION_MESSAGE);
-
+            "Enter Allotment Time for Q" + i + ":", "MLFQ Allotment Input", JOptionPane.QUESTION_MESSAGE);
         if (allotmentInput[i] == null) {
             reenableControls();
             return;
@@ -1020,16 +1208,28 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             if (allotments[i] <= 0) throw new NumberFormatException();
         }
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid allotment input. Please enter valid positive integers.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid allotment input. Please enter valid positive integers.",
+                "Error", JOptionPane.ERROR_MESSAGE);
         reenableControls();
         return;
     }
 
     resetButton.setEnabled(false);
 
+    boolean allZeroBurst = processList.stream().allMatch(p -> p.burstTime == 0);
+    if (allZeroBurst) {
+        int choice = JOptionPane.showConfirmDialog(this,
+                "All burst times are 0 — no execution will take place.\nProceed anyway?",
+                "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (choice != JOptionPane.YES_OPTION) {
+            reenableControls();
+            return;
+        }
+    }
+
     new Thread(() -> {
         List<Queue<Process>> queues = new ArrayList<>();
-        for (int i = 0; i < 4; i++) queues.add(new LinkedList<>()); // Only Q0–Q3
+        for (int i = 0; i < 4; i++) queues.add(new LinkedList<>());
 
         Map<Process, Integer> allotmentUsed = new HashMap<>();
         int time = 0, completed = 0, n = processList.size();
@@ -1039,6 +1239,26 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             p.remainingTime = p.burstTime;
             p.started = false;
             p.currentQueueLevel = 0;
+        }
+
+        for (Process p : processList) {
+            if (p.burstTime == 0) {
+                p.remainingTime = 0;
+                p.completionTime = p.arrivalTime;
+                p.responseTime = 0;
+                p.turnaroundTime = 0;
+                totalRT[0] += p.responseTime;
+                totalTAT[0] += p.turnaroundTime;
+                completed++;
+
+                Process finalP = p;
+                SwingUtilities.invokeLater(() -> {
+                    finalP.stateLabel.setText("Done");
+                    finalP.progressBar.setValue(100);
+                    updateGanttChart(finalP.arrivalTime, finalP.arrivalTime, finalP.pid, finalP.currentQueueLevel);
+                    logAction("✅ P" + finalP.pid + " completed immediately (burst=0)");
+                });
+            }
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -1051,12 +1271,12 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             for (Process p : processList) {
                 if (p.arrivalTime == time && p.remainingTime > 0) {
                     queues.get(0).add(p);
+                    logAction("📥 P" + p.pid + " arrived and placed in Q0");
                 }
             }
 
             Process current = null;
             int currentQueue = -1;
-
             for (int q = 0; q < 4; q++) {
                 if (!queues.get(q).isEmpty()) {
                     current = queues.get(q).poll();
@@ -1075,6 +1295,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
                 current.started = true;
                 current.responseTime = time - current.arrivalTime;
                 totalRT[0] += current.responseTime;
+                logAction("🕒 P" + current.pid + " starts at time " + time + " (Q" + currentQueue + ")");
             }
 
             allotmentUsed.putIfAbsent(current, 0);
@@ -1095,6 +1316,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
                 for (Process p : processList) {
                     if (p.arrivalTime == time && p.remainingTime > 0) {
                         queues.get(0).add(p);
+                        logAction("📥 P" + p.pid + " arrived at time " + time + " → Q0");
                     }
                 }
 
@@ -1105,6 +1327,8 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             int endTime = time;
             boolean isDone = current.remainingTime == 0;
 
+            int duration = endTime - startTime;
+
             SwingUtilities.invokeLater(() -> {
                 finalCurrent.stateLabel.setText(isDone ? "Done" : "Ready");
                 if (isDone) finalCurrent.progressBar.setValue(100);
@@ -1112,25 +1336,24 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             });
 
             if (!isDone) {
-                int used = allotmentUsed.get(current) + (endTime - startTime);
+                int used = allotmentUsed.get(current) + duration;
                 allotmentUsed.put(current, used);
 
                 if (currentQueue < 3 && used >= allotments[currentQueue]) {
                     int nextQueue = currentQueue + 1;
                     current.currentQueueLevel = nextQueue;
                     queues.get(nextQueue).add(current);
+                    logAction("🔽 P" + current.pid + " demoted to Q" + nextQueue);
                 } else {
                     queues.get(currentQueue).add(current);
+                    logAction("🔁 P" + current.pid + " returns to Q" + currentQueue);
                 }
             } else {
                 current.completionTime = time;
                 current.turnaroundTime = current.completionTime - current.arrivalTime;
                 totalTAT[0] += current.turnaroundTime;
                 completed++;
-                SwingUtilities.invokeLater(() -> {
-                    finalCurrent.progressBar.setValue(100);
-                    finalCurrent.progressBar.repaint();
-                });
+                logAction("✅ P" + current.pid + " finished at time " + time);
             }
 
             List<Process> displayQueue = new ArrayList<>();
@@ -1145,52 +1368,18 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
             SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
         }
 
-        // 🟠 Final cleanup for stuck processes after main loop
-        for (Process p : processList) {
-            if (p.remainingTime > 0) {
-                int forcedStart = time;
-                int forcedDuration = p.remainingTime;
-                int queueLevel = p.currentQueueLevel;
-
-                p.responseTime = (p.started ? p.responseTime : time - p.arrivalTime);
-                totalRT[0] += (!p.started ? p.responseTime : 0);
-
-                for (int i = 0; i < forcedDuration; i++) {
-                    time++;
-                    p.remainingTime--;
-                    final int progress = (int)(((float)(p.burstTime - p.remainingTime) / p.burstTime) * 100);
-                    Process finalP = p;
-                    SwingUtilities.invokeLater(() -> {
-                        finalP.progressBar.setValue(progress);
-                        finalP.stateLabel.setText("Running");
-                    });
-                    try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
-                }
-
-                int forcedEnd = time;
-                p.completionTime = forcedEnd;
-                p.turnaroundTime = p.completionTime - p.arrivalTime;
-                totalTAT[0] += p.turnaroundTime;
-
-                Process finalP = p;
-                SwingUtilities.invokeLater(() -> {
-                    updateGanttChart(forcedStart, forcedEnd, finalP.pid, queueLevel);
-                    finalP.stateLabel.setText("Done");
-                    finalP.progressBar.setValue(100);
-                    finalP.progressBar.repaint();
-                });
-            }
-        }
-
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
             ganttPanel.revalidate();
             ganttPanel.repaint();
             updateQueueDisplay(new ArrayList<>());
             reenableControls();
+            logAction("🏁 MLFQ Scheduling finished");
         });
     }).start();
 }
+
+
 
 // Utility method to re-enable UI buttons
 private void reenableControls() {
@@ -1390,12 +1579,17 @@ private boolean queueContains(List<Process> queue, Process target) {
     private javax.swing.JLabel SimulationSpeedLabel;
     private javax.swing.JLabel StateLabel;
     private javax.swing.JTextField UserInput;
+    private javax.swing.JTextArea actionLog;
     private javax.swing.JPanel ganttPanel;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel processPanel;

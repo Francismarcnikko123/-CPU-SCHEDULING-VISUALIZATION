@@ -742,6 +742,7 @@ resetButton.setEnabled(false); // ⛔ Disable reset during simulation
 
     
     private void runSRTF() {
+        resetButton.setEnabled(false); // ⛔ Disable reset during simulation
    new Thread(() -> {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0;

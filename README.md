@@ -20,6 +20,17 @@ Nombrado (MLD-jc):
 Diwa (Francismarcnikko123):
 
 - Implemented RR and MLFQ
+- Enhancement and Fixes the RR and MLFQ Algorithms, Zero burst Time Handling, Process with 'Burst Time = 0' are now automatically marked as `Done`.
+- Their `completionTime`, `turnaroundTime`, and `responseTime` are calculated instantly without freezing the simulation.
+-  Gantt chart updated to reflect immediate completion at their `arrivalTime`.
+-  **Warning Dialog** : If all processes have `burstTime = 0`, a confirmation dialog appears:
+    All burst times are 0 — no execution will take place. Proceed anyway?
+-  Proper Completion Logs:
+-  Each algorithm logs: When it starts. When each process starts and completes. When the algorithm is fully completed ( [Algorithm] completed).
+-  Added a new panel logs real-time algorithm actions (process starts, switches, completions). Applies to all algorithms.
+-  
+
+
 
 PROJECT OVERVIEW: 
 

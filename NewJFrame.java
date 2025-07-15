@@ -26,7 +26,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
-import java.awt.Rectangle;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,11 +53,12 @@ public class NewJFrame extends javax.swing.JFrame {
     private List<Process> processList = new ArrayList<>();
     private String selectedAlgorithm = "FIFO"; // Default
     private volatile int simulationDelay = 500;  // default value
-    private javax.swing.JButton randomButton;
 
     public NewJFrame() {
     initComponents();
     setResizable(false);
+    
+    
     
     jComboBox1.setFocusable(false);
 
@@ -139,6 +139,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        overallProgressBar = new javax.swing.JProgressBar();
+        overallProgressLabel = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -179,6 +183,23 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        javax.swing.table.TableColumnModel columnModel = jTable1.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(80);   // Process ID
+        columnModel.getColumn(1).setPreferredWidth(80);  // Arrival Time
+        columnModel.getColumn(2).setPreferredWidth(80);   // Burst Time
+        columnModel.getColumn(3).setPreferredWidth(100);  // Completion Time
+        columnModel.getColumn(4).setPreferredWidth(100);  // Turnaround Time
+        columnModel.getColumn(5).setPreferredWidth(100);  // Response Time
+        columnModel.getColumn(6).setPreferredWidth(150);  // Avg Turnaround Time
+        columnModel.getColumn(7).setPreferredWidth(140);  // Avg Response Time
+        // Make the table non-interactive
+        jTable1.setRowSelectionAllowed(false);
+        jTable1.setColumnSelectionAllowed(false);
+        jTable1.setCellSelectionEnabled(false);
+        jTable1.setFocusable(false);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.getTableHeader().setResizingAllowed(false);
 
         Enter.setText("Enter");
         Enter.addActionListener(new java.awt.event.ActionListener() {
@@ -216,10 +237,10 @@ public class NewJFrame extends javax.swing.JFrame {
         PIDLabel.setText("PID");
 
         ProgressLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        ProgressLabel.setText("Progress");
+        ProgressLabel.setText("PROGRESS");
 
         StateLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        StateLabel.setText("State");
+        StateLabel.setText("STATE");
 
         RunButton.setText("Run");
         RunButton.addActionListener(new java.awt.event.ActionListener() {
@@ -288,14 +309,48 @@ public class NewJFrame extends javax.swing.JFrame {
         actionLog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane4.setViewportView(actionLog);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Action Message:");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setText("Action Message");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Gnatt Chart ");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("execution timeline of each process :");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        overallProgressLabel.setText("-");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Overall Progress ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(overallProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(overallProgressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(61, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(60, 60, 60))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(overallProgressLabel)
+                    .addComponent(overallProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -305,78 +360,87 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(HowManyProcessLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Enter)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(HowManyProcessLabel)
+                                    .addComponent(jLabel6))
+                                .addGap(1, 1, 1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(AlgorithmLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(86, 86, 86)
+                                        .addComponent(AlgorithmLabel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(25, 25, 25)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PIDLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ProgressLabel)
+                                .addGap(62, 62, 62)
+                                .addComponent(StateLabel)
+                                .addGap(28, 28, 28))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(PIDLabel)
-                                        .addGap(78, 78, 78)
-                                        .addComponent(ProgressLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(StateLabel)
-                                        .addGap(12, 12, 12)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(Enter, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(RunButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(21, 21, 21)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(QueueLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                                        .addComponent(QueueLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(34, 34, 34)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(24, 24, 24)
-                                                .addComponent(SimulationSpeedLabel)))))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addComponent(SimulationSpeedLabel))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(106, 106, 106)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 20, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AlgorithmLabel)
-                    .addComponent(PIDLabel)
-                    .addComponent(ProgressLabel)
-                    .addComponent(StateLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AlgorithmLabel)
+                            .addComponent(PIDLabel)
+                            .addComponent(ProgressLabel)
+                            .addComponent(StateLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -391,27 +455,24 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(resetButton)))
-                        .addGap(80, 80, 80))
+                        .addGap(95, 95, 95))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(17, 17, 17)
-                                        .addComponent(QueueLabel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(SimulationSpeedLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(SimulationSpeedLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(simulationSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(42, 42, 42)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(QueueLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1, 1, 1)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
@@ -458,6 +519,9 @@ public class NewJFrame extends javax.swing.JFrame {
         ganttPanel.removeAll();
         ganttPanel.revalidate();
         ganttPanel.repaint();
+        
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / 0 (0.00%)");
 
         UserInput.setText("");
         RunButton.setSelected(false);
@@ -601,10 +665,18 @@ public class NewJFrame extends javax.swing.JFrame {
     RunButton.setSelected(false);
     resetButton.setEnabled(true);
     actionLog.setText("");
+    
+    // Reset overall progress bar
+    for (Process p : processList) {
+        p.progressBar.setValue(0);
+        p.stateLabel.setText("Ready");
+    }
+
+    overallProgressBar.setValue(0);
+    overallProgressLabel.setText("0 / 0 (0.00%)");
         
     }//GEN-LAST:event_resetButtonActionPerformed
-
-        private void logAction(String message) {
+    private void logAction(String message) {
     SwingUtilities.invokeLater(() -> {
         actionLog.append(message + "\n");
         actionLog.setCaretPosition(actionLog.getDocument().getLength());
@@ -614,8 +686,16 @@ public class NewJFrame extends javax.swing.JFrame {
     private void runFIFO() {
      resetButton.setEnabled(false); // ⛔ Disable reset
      
-     SwingUtilities.invokeLater(() -> actionLog.setText(""));
-     logAction("▶️ [ FIFO Scheduling] started");
+     SwingUtilities.invokeLater(() -> {
+        actionLog.setText("");
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / " + processList.size() + " (0.00%)");
+        setUIControlsEnabled(false);
+    });
+
+    logAction("▶️ [ FIFO Scheduling] started");
+     
+     int[] completedProcesses = {0}; // track overall progress
 
     processList.sort((p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime));
 
@@ -705,13 +785,30 @@ public class NewJFrame extends javax.swing.JFrame {
                         totalTAT[0] += p.turnaroundTime;
 
                         updateGanttChart(startTime, currentTime[0], p.pid);
+                        
+                        setUIControlsEnabled(true);
+                        
+                        completedProcesses[0]++;
+                        int totalProcesses = processList.size();
+                        int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+
+                        overallProgressBar.setValue(overallProgress);
+                        overallProgressLabel.setText(String.format("%d / %d (%.2f%%)", 
+                             completedProcesses[0], 
+                         totalProcesses, 
+                            ((double) completedProcesses[0] / totalProcesses) * 100.0)
+                         
+                                
+                        );
 
                         if (finalIndex + 1 < processList.size()) {
                             updateQueueDisplay(processList.subList(finalIndex + 1, processList.size()));
                         } else {
                             updateQueueDisplay(new ArrayList<>());
                         }
-
+                        
+                        
+                        
                         if (finalIndex == processList.size() - 1) {
                             updateTable(totalTAT[0], totalRT[0]);
                             Enter.setEnabled(true);
@@ -720,6 +817,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             RunButton.setSelected(false);
                             resetButton.setEnabled(true); // ✅ Re-enable reset
                             logAction("[FIFO Scheduling] Completed!");
+                            overallProgressBar.setValue(100);
                         }
                     });
                 }
@@ -739,7 +837,13 @@ public class NewJFrame extends javax.swing.JFrame {
     private void runSJF() {
     resetButton.setEnabled(false); // ⛔ Disable reset during simulation
 
-    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    SwingUtilities.invokeLater(() -> {
+        actionLog.setText("");
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / " + processList.size() + " (0.00%)");
+        setUIControlsEnabled(false);
+        
+    });
     logAction("▶️ [SJF Scheduling] started");
 
     new Thread(() -> {
@@ -749,6 +853,7 @@ public class NewJFrame extends javax.swing.JFrame {
         int n = processList.size();
         int[] totalRT = {0};
         int[] totalTAT = {0};
+        int[] completedProcesses = {0}; // Track progress
 
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
@@ -781,9 +886,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
             if (readyQueue.isEmpty()) {
                 time++;
-                try {
-                    Thread.sleep(simulationDelay);
-                } catch (InterruptedException ignored) {}
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
                 continue;
             }
 
@@ -805,9 +908,24 @@ public class NewJFrame extends javax.swing.JFrame {
                 totalRT[0] += current.responseTime;
                 totalTAT[0] += current.turnaroundTime;
                 completed++;
+
+                // Update overall progress
+                completedProcesses[0]++;
+                int totalProcesses = processList.size();
+                int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+
+                SwingUtilities.invokeLater(() -> {
+                    overallProgressBar.setValue(overallProgress);
+                    overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                        completedProcesses[0],
+                        totalProcesses,
+                        ((double) completedProcesses[0] / totalProcesses) * 100.0
+                    ));
+                });
+
                 continue;
             }
-            
+
             logAction("SJF: " + current.pid + " started at " + time);
             int start = time;
             int end = time + current.burstTime;
@@ -822,11 +940,9 @@ public class NewJFrame extends javax.swing.JFrame {
             SwingUtilities.invokeLater(() -> finalCurrent.stateLabel.setText("Running"));
 
             for (int t = 0; t < current.burstTime; t++) {
-                try {
-                    Thread.sleep(simulationDelay);
-                } catch (InterruptedException ignored) {}
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
 
-                int progress = (int) (((t + 1) / (float) current.burstTime) * 100);
+                int progress = (int)(((t + 1) / (float) current.burstTime) * 100);
                 SwingUtilities.invokeLater(() -> finalCurrent.progressBar.setValue(progress));
 
                 int finalTime = time + t + 1;
@@ -848,6 +964,20 @@ public class NewJFrame extends javax.swing.JFrame {
             time = end;
             completed++;
             logAction("SJF: " + current.pid + " completed at " + time);
+
+            // Update overall progress after normal completion
+            completedProcesses[0]++;
+            int totalProcesses = processList.size();
+            int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+
+            SwingUtilities.invokeLater(() -> {
+                overallProgressBar.setValue(overallProgress);
+                overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                    completedProcesses[0],
+                    totalProcesses,
+                    ((double) completedProcesses[0] / totalProcesses) * 100.0
+                ));
+            });
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -858,156 +988,150 @@ public class NewJFrame extends javax.swing.JFrame {
             RunButton.setSelected(false);
             resetButton.setEnabled(true); // ✅ Re-enable reset
             logAction("[SJF Scheduling] Completed!");
+            overallProgressBar.setValue(100);
+            overallProgressLabel.setText(processList.size() + " / " + processList.size() + " (100.00%)");
+            setUIControlsEnabled(true);
         });
     }).start();
 }
 
+
     
-    private void runSRTF() {
-        
-    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+        private void runSRTF() {
+    resetButton.setEnabled(false);
+
+    SwingUtilities.invokeLater(() -> {
+        actionLog.setText("");
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / " + processList.size() + " (0.00%)");
+        setUIControlsEnabled(false);
+    });
     logAction("▶️ [SRTF Scheduling] started");
-        
-   new Thread(() -> {
-        List<Process> readyQueue = new ArrayList<>();
+
+    new Thread(() -> {
         int time = 0;
         int completed = 0;
         int n = processList.size();
         int[] totalRT = {0};
         int[] totalTAT = {0};
+        int[] completedProcesses = {0};
 
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
         }
-        
-        for (Process p : processList) {
-    if (p.burstTime == 0) {
-        p.remainingTime = 0;
-        p.completionTime = p.arrivalTime;
-        p.turnaroundTime = 0;
-        p.responseTime = 0;
-        totalRT[0] += p.responseTime;
-        totalTAT[0] += p.turnaroundTime;
-        completed++;
 
-        Process finalP = p;
-        SwingUtilities.invokeLater(() -> {
-            finalP.stateLabel.setText("Done");
-            finalP.progressBar.setValue(100);
-            updateGanttChart(finalP.arrivalTime, finalP.arrivalTime, finalP.pid);
-        });
-    }
-}
-        
         SwingUtilities.invokeLater(() -> {
             ganttPanel.removeAll();
             ganttPanel.revalidate();
             ganttPanel.repaint();
         });
 
-        Process current = null;
-        int start = -1;
-
         while (completed < n) {
-            for (Process p : processList) {
-                if (p.arrivalTime == time) {
-                    readyQueue.add(p);
-                }
-            }
-
             Process shortest = null;
-            for (Process p : readyQueue) {
-                if (p.remainingTime > 0) {
-                    if (shortest == null || p.remainingTime < shortest.remainingTime) {
-                        shortest = p;
-                    }
+            int minRemaining = Integer.MAX_VALUE;
+
+            for (Process p : processList) {
+                if (p.arrivalTime <= time && p.remainingTime > 0 && p.remainingTime < minRemaining) {
+                    shortest = p;
+                    minRemaining = p.remainingTime;
                 }
             }
 
-            if (shortest != null) {
-                logAction("SRTF: Switched to " + shortest.pid + " at time " + time);
-                if (current != shortest) {
-                    if (current != null && current.remainingTime > 0) {
-                        Process finalOld = current;
-                        SwingUtilities.invokeLater(() -> finalOld.stateLabel.setText("Ready"));
-                    }
-
-                    current = shortest;
-                    start = time;
-
-                    if (!current.started) {
-                        current.started = true;
-                        current.responseTime = time - current.arrivalTime;
-                    }
-
-                    Process finalCurrentStart = current;
-                    SwingUtilities.invokeLater(() -> finalCurrentStart.stateLabel.setText("Running"));
-                }
-
-                Process finalCurrentTick = current;
-                SwingUtilities.invokeLater(() -> {
-                    finalCurrentTick.progressBar.setValue(
-                        (int)(((finalCurrentTick.burstTime - finalCurrentTick.remainingTime + 1) * 100.0) / finalCurrentTick.burstTime)
-                    );
-                });
-
-                current.remainingTime--;
-
-                if (current.remainingTime == 0) {
-                    Process finalCurrentDone = current;
-                    int finalStart = start;
-                    int finalEnd = time + 1;
-
-                    current.completionTime = finalEnd;
-                    current.turnaroundTime = finalCurrentDone.completionTime - finalCurrentDone.arrivalTime;
-                    totalRT[0] += finalCurrentDone.responseTime;
-                    totalTAT[0] += finalCurrentDone.turnaroundTime;
-
-                    readyQueue.remove(current);
-
-                    SwingUtilities.invokeLater(() -> {
-                        finalCurrentDone.stateLabel.setText("Done");
-                        finalCurrentDone.progressBar.setValue(100);
-                        updateGanttChart(finalStart, finalEnd, finalCurrentDone.pid);
-                        
-                        logAction("SRTF: " + finalCurrentDone.pid + " completed at time " + finalEnd);
-                    });
-
-                    current = null;
-                    completed++;
-                }
+            if (shortest == null) {
+                time++;
+                try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+                continue;
             }
 
-            Set<Integer> seenPIDs = new HashSet<>();
-            List<Process> displayQueue = new ArrayList<>();
-            for (Process p : readyQueue) {
-                if (p.remainingTime > 0 && p != current && seenPIDs.add(p.pid)) {
-                    displayQueue.add(p);
-                }
+            if (!shortest.started) {
+                shortest.started = true;
+                int startTime = time;
+                logAction("SRTF: " + shortest.pid + " started at " + startTime);
+                shortest.responseTime = startTime - shortest.arrivalTime;
             }
 
-            SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
+            shortest.remainingTime--;
 
-            try {
-                Thread.sleep(simulationDelay);
-            } catch (InterruptedException ignored) {}
+            int progress = (int)(((shortest.burstTime - shortest.remainingTime) / (float) shortest.burstTime) * 100);
+
+            Process finalShortest = shortest;
+            int finalProgress = progress;
+            SwingUtilities.invokeLater(() -> {
+                finalShortest.progressBar.setValue(finalProgress);
+                finalShortest.stateLabel.setText("Running");
+            });
+            
+            List<Process> queueSnapshot = new ArrayList<>();
+            for (Process p : processList) {
+                if (p.remainingTime > 0 && p.arrivalTime <= time) {
+                      queueSnapshot.add(p);
+                }
+            }
+            SwingUtilities.invokeLater(() -> updateQueueDisplay(queueSnapshot));
 
             time++;
+            try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
+
+            if (shortest.remainingTime == 0) {
+                int completionTime = time;
+                shortest.completionTime = completionTime;
+                shortest.turnaroundTime = completionTime - shortest.arrivalTime;
+                totalRT[0] += shortest.responseTime;
+                totalTAT[0] += shortest.turnaroundTime;
+
+                completed++;
+                completedProcesses[0]++;
+
+                int totalProcesses = processList.size();
+                int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+
+                int start = completionTime - shortest.burstTime;
+                int end = completionTime;
+
+                SwingUtilities.invokeLater(() -> {
+                    finalShortest.progressBar.setValue(100);
+                    finalShortest.stateLabel.setText("Done");
+                    updateGanttChart(start, end, finalShortest.pid);
+
+                    overallProgressBar.setValue(overallProgress);
+                    overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                        completedProcesses[0],
+                        totalProcesses,
+                        ((double) completedProcesses[0] / totalProcesses) * 100.0
+                    ));
+                });
+
+                logAction("SRTF: " + shortest.pid + " completed at " + completionTime);
+            }
         }
 
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
-            reenableControls(); // ✅ reset button enabled here
-            ganttPanel.revalidate(); // 🔄 Force Gantt sync
-            ganttPanel.repaint();
-            logAction("✅ [SRTF Scheduling] completed"); 
+            Enter.setEnabled(true);
+            UserInput.setEnabled(true);
+            RunButton.setEnabled(true);
+            RunButton.setSelected(false);
+            resetButton.setEnabled(true);
+            logAction("[SRTF Scheduling] Completed!");
+            overallProgressBar.setValue(100);
+            overallProgressLabel.setText(processList.size() + " / " + processList.size() + " (100.00%)");
+            setUIControlsEnabled(true);
         });
+
     }).start();
 }
+
+
+
     
     private void runRR() {
-    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    SwingUtilities.invokeLater(() -> {
+        actionLog.setText("");
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / " + processList.size() + " (0.00%)");
+        setUIControlsEnabled(false);
+    });
     logAction("▶️ [Round Robin Scheduling] started");
 
     String input = JOptionPane.showInputDialog(this, "Enter Time Quantum:", "Round Robin Settings", JOptionPane.QUESTION_MESSAGE);
@@ -1048,13 +1172,14 @@ public class NewJFrame extends javax.swing.JFrame {
         List<Process> readyQueue = new ArrayList<>();
         int time = 0, completed = 0, n = processList.size();
         int[] totalRT = {0}, totalTAT = {0};
+        int[] completedProcesses = {0}; // Track completed
 
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
         }
 
-        // ✅ Log immediately finished (burstTime == 0) processes
+        // Handle instant completions
         for (Process p : processList) {
             if (p.burstTime == 0) {
                 p.remainingTime = 0;
@@ -1071,6 +1196,18 @@ public class NewJFrame extends javax.swing.JFrame {
                     finalP.progressBar.setValue(100);
                     updateGanttChart(finalP.arrivalTime, finalP.arrivalTime, finalP.pid);
                     logAction("⚡ " + finalP.pid + " completed instantly (burst time = 0)");
+                });
+
+                completedProcesses[0]++;
+                int totalProcesses = processList.size();
+                int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+                SwingUtilities.invokeLater(() -> {
+                    overallProgressBar.setValue(overallProgress);
+                    overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                        completedProcesses[0],
+                        totalProcesses,
+                        ((double) completedProcesses[0] / totalProcesses) * 100.0
+                    ));
                 });
             }
         }
@@ -1147,6 +1284,19 @@ public class NewJFrame extends javax.swing.JFrame {
                 totalTAT[0] += current.turnaroundTime;
                 completed++;
                 logAction("✅ " + current.pid + " completed at " + time);
+
+                completedProcesses[0]++;
+                int totalProcesses = processList.size();
+                int overallProgress = (int)(((double) completedProcesses[0] / totalProcesses) * 100);
+
+                SwingUtilities.invokeLater(() -> {
+                    overallProgressBar.setValue(overallProgress);
+                    overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                        completedProcesses[0],
+                        totalProcesses,
+                        ((double) completedProcesses[0] / totalProcesses) * 100.0
+                    ));
+                });
             }
 
             List<Process> queueDisplay = new ArrayList<>();
@@ -1165,15 +1315,26 @@ public class NewJFrame extends javax.swing.JFrame {
             ganttPanel.revalidate();
             ganttPanel.repaint();
             logAction("✔️ All processes completed (RR).");
+
+            overallProgressBar.setValue(100);
+            overallProgressLabel.setText(processList.size() + " / " + processList.size() + " (100.00%)");
+            setUIControlsEnabled(true);
         });
     }).start();
 }
 
+
     
     private void runMLFQ() {
-    SwingUtilities.invokeLater(() -> actionLog.setText(""));
+    SwingUtilities.invokeLater(() -> {
+        actionLog.setText("");
+        overallProgressBar.setValue(0);
+        overallProgressLabel.setText("0 / " + processList.size() + " (0.00%)");
+        setUIControlsEnabled(false);
+    });
     logAction("▶️ [MLFQ Scheduling] started");
 
+    // 1. Get Quantum Input
     String[] quantumInput = new String[4];
     for (int i = 0; i < 4; i++) {
         quantumInput[i] = JOptionPane.showInputDialog(this,
@@ -1197,6 +1358,7 @@ public class NewJFrame extends javax.swing.JFrame {
         return;
     }
 
+    // 2. Get Allotment Input
     String[] allotmentInput = new String[4];
     for (int i = 0; i < 4; i++) {
         allotmentInput[i] = JOptionPane.showInputDialog(this,
@@ -1222,6 +1384,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     resetButton.setEnabled(false);
 
+    // 3. Pre-check for zero burst
     boolean allZeroBurst = processList.stream().allMatch(p -> p.burstTime == 0);
     if (allZeroBurst) {
         int choice = JOptionPane.showConfirmDialog(this,
@@ -1234,19 +1397,22 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     new Thread(() -> {
+        // Initialize queues for 4 levels
         List<Queue<Process>> queues = new ArrayList<>();
         for (int i = 0; i < 4; i++) queues.add(new LinkedList<>());
 
         Map<Process, Integer> allotmentUsed = new HashMap<>();
-        int time = 0, completed = 0, n = processList.size();
+        int time = 0, completed = 0;
         int[] totalRT = {0}, totalTAT = {0};
 
+        // Reset process state
         for (Process p : processList) {
             p.remainingTime = p.burstTime;
             p.started = false;
             p.currentQueueLevel = 0;
         }
 
+        // For zero-burst processes
         for (Process p : processList) {
             if (p.burstTime == 0) {
                 p.remainingTime = 0;
@@ -1273,7 +1439,10 @@ public class NewJFrame extends javax.swing.JFrame {
             ganttPanel.repaint();
         });
 
-        while (completed < n) {
+        // ✅ New termination condition: Loop until ALL processes have remainingTime = 0
+        while (processList.stream().anyMatch(p -> p.remainingTime > 0)) {
+
+            // Check new arrivals
             for (Process p : processList) {
                 if (p.arrivalTime == time && p.remainingTime > 0) {
                     queues.get(0).add(p);
@@ -1283,6 +1452,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
             Process current = null;
             int currentQueue = -1;
+
+            // Get next process from highest priority queue
             for (int q = 0; q < 4; q++) {
                 if (!queues.get(q).isEmpty()) {
                     current = queues.get(q).poll();
@@ -1292,6 +1463,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
 
             if (current == null) {
+                // Idle CPU
                 time++;
                 try { Thread.sleep(simulationDelay); } catch (InterruptedException ignored) {}
                 continue;
@@ -1319,6 +1491,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 int progress = (int)(((float)(current.burstTime - current.remainingTime) / current.burstTime) * 100);
                 SwingUtilities.invokeLater(() -> finalCurrent.progressBar.setValue(progress));
 
+                // Check new arrivals during execution
                 for (Process p : processList) {
                     if (p.arrivalTime == time && p.remainingTime > 0) {
                         queues.get(0).add(p);
@@ -1332,7 +1505,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
             int endTime = time;
             boolean isDone = current.remainingTime == 0;
-
             int duration = endTime - startTime;
 
             SwingUtilities.invokeLater(() -> {
@@ -1342,12 +1514,15 @@ public class NewJFrame extends javax.swing.JFrame {
             });
 
             if (!isDone) {
+                // Update allotment
                 int used = allotmentUsed.get(current) + duration;
                 allotmentUsed.put(current, used);
 
+                // Check if process exceeds allotment → demote
                 if (currentQueue < 3 && used >= allotments[currentQueue]) {
                     int nextQueue = currentQueue + 1;
                     current.currentQueueLevel = nextQueue;
+                    allotmentUsed.put(current, 0); // reset after demotion
                     queues.get(nextQueue).add(current);
                     logAction("🔽 P" + current.pid + " demoted to Q" + nextQueue);
                 } else {
@@ -1360,8 +1535,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 totalTAT[0] += current.turnaroundTime;
                 completed++;
                 logAction("✅ P" + current.pid + " finished at time " + time);
+
+                // ✅ Progress bar update when process finishes
+                int totalProcesses = processList.size();
+                int overallProgress = (int)(((double) completed / totalProcesses) * 100);
+                int finalCompleted = completed;
+
+                SwingUtilities.invokeLater(() -> {
+                    overallProgressBar.setValue(overallProgress);
+                    overallProgressLabel.setText(String.format("%d / %d (%.2f%%)",
+                        finalCompleted, totalProcesses,
+                        ((double) finalCompleted / totalProcesses) * 100.0));
+                });
             }
 
+            // Update Queue Display
             List<Process> displayQueue = new ArrayList<>();
             for (Queue<Process> q : queues) {
                 for (Process p : q) {
@@ -1374,6 +1562,7 @@ public class NewJFrame extends javax.swing.JFrame {
             SwingUtilities.invokeLater(() -> updateQueueDisplay(displayQueue));
         }
 
+        // Final UI updates
         SwingUtilities.invokeLater(() -> {
             updateTable(totalTAT[0], totalRT[0]);
             ganttPanel.revalidate();
@@ -1381,9 +1570,16 @@ public class NewJFrame extends javax.swing.JFrame {
             updateQueueDisplay(new ArrayList<>());
             reenableControls();
             logAction("🏁 MLFQ Scheduling finished");
+
+            // ✅ Final progress update
+            overallProgressBar.setValue(100);
+            overallProgressLabel.setText(processList.size() + " / " + processList.size() + " (100.00%)");
+            setUIControlsEnabled(true);
         });
     }).start();
 }
+
+
 
 
 
@@ -1460,8 +1656,6 @@ private void reenableControls() {
         ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
         ganttPanel.revalidate();
         ganttPanel.repaint();
-        ganttPanel.scrollRectToVisible(new Rectangle(ganttPanel.getPreferredSize()));
-
     });
 
     new Thread(() -> {
@@ -1510,8 +1704,6 @@ private void updateGanttChart(int startTime, int endTime, int pid, int queueLeve
         ganttPanel.add(block);
         ganttPanel.revalidate();
         ganttPanel.repaint();
-        ganttPanel.scrollRectToVisible(new Rectangle(ganttPanel.getPreferredSize()));
-
     });
 
     // Animate and change to cyan after running
@@ -1533,10 +1725,16 @@ private void updateGanttChart(int startTime, int endTime, int pid, int queueLeve
         ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
         ganttPanel.revalidate();
         ganttPanel.repaint();
-        
     });
 }
 
+private void setUIControlsEnabled(boolean enabled) {
+    UserInput.setEnabled(enabled);
+    Enter.setEnabled(enabled);
+    RunButton.setEnabled(enabled);
+    resetButton.setEnabled(enabled);
+    jComboBox1.setEnabled(enabled);
+}
 
 private boolean queueContains(List<Process> queue, Process target) {
     for (Process p : queue) {
@@ -1596,13 +1794,17 @@ private boolean queueContains(List<Process> queue, Process target) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
+    private javax.swing.JProgressBar overallProgressBar;
+    private javax.swing.JLabel overallProgressLabel;
     private javax.swing.JPanel processPanel;
     private javax.swing.JPanel queuePanel;
     private javax.swing.JButton resetButton;

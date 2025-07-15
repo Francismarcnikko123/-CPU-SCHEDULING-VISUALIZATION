@@ -46,8 +46,8 @@ Disables ComboBox, input, and buttons during active simulation.
 Display and update the overall progress bar during simulations.
 Properly reset progress on switching algorithms or pressing reset.
 Disable/enable ComboBox and inputs during processing.
-- Improved jTable1 spacing between column (Process ID, Arrival Time, Burst Time, etc.) and
-- Make the table non-interactive.
+- Improved jTable1 spacing between column (Process ID, Arrival Time, Burst Time, etc.) and make the table non-interactive.
+
 
 
 

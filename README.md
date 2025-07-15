@@ -15,7 +15,8 @@ Nombrado (MLD-jc):
 - Finalized the MLFQ and RR to be in sync with the other UI components and to have real time visualization
 - Added an indicator to MLFQ in the gnatt chart where it shows the highest priority and the lowest (This is only for the MLFQ algorithm since it has quequing priorities)
 - Implemented a queue panel with real time visualization of the algorithms process when running in each algorithms shows the process of the next queue
-- Added the simulation speed where user can adjust the sim speed of the process during it's execution or before the user enters run to execute the process 
+- Added the simulation speed where user can adjust the sim speed of the process during it's execution or before the user enters run to execute the process
+- Improved the clearing of the action log so the user does not have to manually reset the button in each change of the algorithms but instead when the user select another algorithm, it would clear the action log. 
 
 Diwa (Francismarcnikko123):
 

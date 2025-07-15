@@ -30,6 +30,7 @@ Diwa (Francismarcnikko123):
 -  Each algorithm logs: When it starts. When each process starts and completes. When the algorithm is fully completed ( [Algorithm] completed).
 -  Added a new panel logs real-time algorithm actions (process starts, switches, completions). Applies to all algorithms.
 -  Fixes the Actionlog whenever it resets the ActionLog will be cleared.
+-  
 
 
 

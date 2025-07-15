@@ -26,6 +26,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
+import java.awt.Rectangle;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,12 +54,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private List<Process> processList = new ArrayList<>();
     private String selectedAlgorithm = "FIFO"; // Default
     private volatile int simulationDelay = 500;  // default value
+    private javax.swing.JButton randomButton;
 
     public NewJFrame() {
     initComponents();
     setResizable(false);
-    
-    
     
     jComboBox1.setFocusable(false);
 
@@ -307,12 +307,12 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(HowManyProcessLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(UserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel6))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -354,7 +354,6 @@ public class NewJFrame extends javax.swing.JFrame {
                                                 .addComponent(SimulationSpeedLabel)))))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -604,7 +603,8 @@ public class NewJFrame extends javax.swing.JFrame {
     actionLog.setText("");
         
     }//GEN-LAST:event_resetButtonActionPerformed
-    private void logAction(String message) {
+
+        private void logAction(String message) {
     SwingUtilities.invokeLater(() -> {
         actionLog.append(message + "\n");
         actionLog.setCaretPosition(actionLog.getDocument().getLength());
@@ -1460,6 +1460,8 @@ private void reenableControls() {
         ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
         ganttPanel.revalidate();
         ganttPanel.repaint();
+        ganttPanel.scrollRectToVisible(new Rectangle(ganttPanel.getPreferredSize()));
+
     });
 
     new Thread(() -> {
@@ -1508,6 +1510,8 @@ private void updateGanttChart(int startTime, int endTime, int pid, int queueLeve
         ganttPanel.add(block);
         ganttPanel.revalidate();
         ganttPanel.repaint();
+        ganttPanel.scrollRectToVisible(new Rectangle(ganttPanel.getPreferredSize()));
+
     });
 
     // Animate and change to cyan after running
@@ -1529,6 +1533,7 @@ private void updateGanttChart(int startTime, int endTime, int pid, int queueLeve
         ganttPanel.setPreferredSize(new Dimension(totalWidth, ganttPanel.getHeight()));
         ganttPanel.revalidate();
         ganttPanel.repaint();
+        
     });
 }
 

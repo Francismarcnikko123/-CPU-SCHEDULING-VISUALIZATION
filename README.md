@@ -30,7 +30,24 @@ Diwa (Francismarcnikko123):
 -  Each algorithm logs: When it starts. When each process starts and completes. When the algorithm is fully completed ( [Algorithm] completed).
 -  Added a new panel logs real-time algorithm actions (process starts, switches, completions). Applies to all algorithms.
 -  Fixes the Actionlog whenever it resets the ActionLog will be cleared.
--  
+-  Added a Overall Progress Bar, Displays total simulation progress for each algorithm.
+-  Resets when:
+resetButton is pressed.
+Algorithm is changed via the ComboBox (jComboBox1).
+ComboBox (jComboBox1) Handling
+
+-  When user switches to a different algorithm:
+Clears all panels (process, queue, Gantt).
+Resets the overall progress bar and label.
+Disables ComboBox, input, and buttons during active simulation.
+
+- Per-Algorithm Updates: FIFO, SJF, SRTF, RR, MLFQ
+- All algorithms now:
+Display and update the overall progress bar during simulations.
+Properly reset progress on switching algorithms or pressing reset.
+Disable/enable ComboBox and inputs during processing.
+- Improved jTable1 spacing between column (Process ID, Arrival Time, Burst Time, etc.) and
+- Make the table non-interactive.
 
 
 

@@ -30,7 +30,7 @@ Diwa (Francismarcnikko123):
 -  Each algorithm logs: When it starts. When each process starts and completes. When the algorithm is fully completed ( [Algorithm] completed).
 -  Added new panel logs real-time algorithm actions (process starts, switches, completions). Applies to all algorithms.
 -  Fixed the Actionlog whenever it resets the ActionLog will be cleared.
--  Added a Overall Progress Bar, Displays total simulation progress for each algorithm.
+-  Added an Overall Progress Bar, Displays total simulation progress for each algorithm.
 -  Resets when:
 resetButton is pressed.
 Algorithm is changed via the ComboBox (jComboBox1).
